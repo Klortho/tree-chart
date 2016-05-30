@@ -5,7 +5,7 @@
   'use strict';
 
   TreeChart.testModule = function(assert) {
-    assert(2 == 2, 'uh oh');
+    assert.equsl(2, 2, 'uh oh');
     return assert.results;
   };
 })();

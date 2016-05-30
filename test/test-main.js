@@ -4,12 +4,12 @@
 (function() {
   'use strict';
 
-  TreeChart.testMain = function(assert) {
+  new AssertionsPlus('main', function(assert) {
 
     const chart = new TreeChart();
     assert.isDefined(chart);
     assert.equal(chart.options.renderer.select, 'd3svg');
 
     return assert.results;
-  };
+  });
 })();

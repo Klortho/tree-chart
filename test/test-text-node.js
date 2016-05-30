@@ -4,7 +4,7 @@
 (function() {
   'use strict';
 
-  TreeChart.testTextNode = function(assert) {
+  new AssertionsPlus('text node', function(assert) {
     const TextNode = TreeChart.TextNode;
 
     const z = new TextNode('zorumbus');
@@ -14,13 +14,11 @@
 
     const y = z.copy();
     assert.equal(y.__id, 1);
-    console.log('y.texts: ' + y.text);
     assert.equal(y.text, 'zorumbus');
     assert.equal(y.children.length, 0);
 
-    assert(z.same(y));
-
+    assert.isTrue(z.same(y));
 
     return assert.results;
-  };
+  });
 })();

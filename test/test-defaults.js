@@ -4,11 +4,11 @@
 (function() {
   'use strict';
 
-  TreeChart.testDefaults = function(assert) {
-    if (null == assert(typeof config1 !== 'undefined', 'Where\'s C1?')) {
+  new AssertionsPlus('defaults', function(assert) {
+    if (null == assert.isDefined(config1, 'Where\'s C1?')) {
       const C1 = config1;
       const defaults = TreeChart.Defaults.value;
-      assert(defaults.chart.width == 800, 'Default chart width should be 800');
+      assert.equal(defaults.chart.width, 800, 'Default chart width should be 800');
 
       const n = defaults.node;
       const mockNode = { text: 'banana' };
@@ -27,5 +27,5 @@
       assert.closeTo(n['anchor-out'](mockNode).y, 19.5, 0.0001);
     }
     return assert.results;
-  };
+  });
 })();

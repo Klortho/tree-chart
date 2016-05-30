@@ -1,32 +1,18 @@
 //----------------------------------------------------------------
-// assertions.js - defines a function that we use to import chai
+// assertions.js - defines a class that we use to import chai
 // and extend its functionality.
-// All of the assert functions push their results onto a locally bound
-// `results` array. They also all return either `null` on success, or an
-// error message string on failure.
 
-// We would have this (but it's already included):
-// const assert = require('chai').assert;
-
-(function() {
+const AssertionsPlus = (function() {
   'use strict';
 
-  // Create a new `assert` function that closes around a results object.
-  // It also wraps all the chai assertions, so we can use those.
-  TreeChart.makeAssert = function() {
-    const results = {
-      ran: 0,
-      passed: 0,
-      promises: [],
-    };
+  const chaiAssert = chai.assert;
 
-    const cassert = chai.assert;
-
-    // Wrap an assertion so we catch its exception if there is one. 
-    // Returns null if assertion is true (passed), or the error message string
-    const tameAssert = function(assertFunc, ...args) {
+  // Wrap an assertion, catching any exception. The tame function returns null 
+  // on success, or the error message string on failure.
+  const tameAssert = assertFunc => 
+    function(...args) {
       try { 
-        assertFunc.apply(assertFunc, args); 
+        assertFunc(...args); 
         return null;
       }
       catch(err) {
@@ -34,49 +20,125 @@
       }
     };
 
-    // Delegate a call to assert or one of it's pals, via tameAssert. This
-    // records the results.
-    const callChai = function(fname, ...args) {
-      results.ran++;
-      const chaiFunc = fname == '' ? cassert : cassert[fname];
-      const errmsg = tameAssert(chaiFunc, ...args);
-      if (!errmsg) {
-        results.passed++;
-      }
-      else {
-        console.error(errmsg);
-      }
-    };
+  // Tames a chai assertion function, given its name
+  const tameChai = fname => tameAssert(chaiAssert[fname]);
 
-    // Here's our new assert function
-    const assert = function(...args) {
-      return callChai('', ...args);
-    };
+  const _allTests = [];
 
-    // For every one of chai's assert functions, add a delegator to ours
-    Object.keys(cassert).forEach(fname => {
-      //console.log('fname: ', fname);
-      assert[fname] = function(...args) {
-        return callChai(fname, ...args);
-      };
-    });
+  return class {
+    constructor(description, testFunc) {
+      _allTests.push(this);
+      this.description = description;
+      this.testFunc = testFunc;
+      this.done = false;  // you can only run a test once.
 
-    // To test promises:
-    //   assert.promise(
-    //     unit.asyncFunc()
-    //     .then(data => {
-    //       ... test using other assert functions, as normal ...
-    //     })
-    //     .catch(err => {
-    //       assert.fail(null, null, 'unit async failed: ' + err)
-    //     })
-    //   );
-    assert.promise = function(p) {
-      results.promises.push(p);
-      return p;
+      // The following record the results of the individual assertions
+      this.ran = 0;
+      this.passed = 0;
+      this.errors = [];
+      this.promises = [];
+
+      // For every one of chai's assert functions, add a delegator method
+      // FIXME: can we do this with new ES6 syntax?
+      Object.keys(chaiAssert).forEach(fname => {
+        this[fname] = function(...args) {
+          this.delegate(tameChai(fname), ...args);
+        };
+      });
     }
 
-    assert.results = results;
-    return assert;
+    static get allTests() {
+      return _allTests;
+    }
+
+    // Test an async promise-based function.
+    // Usage:
+    //   assert.promise('failed to fetch',
+    //     unit.fetch(path)
+    //     .then(data => {
+    //       ... test using other assert functions, as normal ...
+    //     }));
+
+    get promise() {
+      return (msg, unitp) => {
+        // Note that the promise itself counts as a test
+        const wrap = unitp
+        .then(
+          value => {  // resolved
+            this.ran++;
+            this.passed++;
+            return value;
+          },
+          err => {    // rejected
+            const errmsg = `Promise rejected: ${msg}: ${err.toString()}`;
+            this.ran++;
+            this.errors.push(errmsg);
+            return errmsg;
+          }
+        );
+        this.promises.push(wrap);
+        return wrap;
+      };
+    }
+
+    // Returns a promise that resolves when all the promise-based assertions
+    // resolve. You can only run a test once.
+    run() {
+      if (!this.done) {
+        this.done = true;
+        this.testFunc(this);
+      }
+      return Promise.all(this.promises);
+    }
+
+    // This method delegates to a well-behaved ("tame") assertion function,
+    // and records the results
+    delegate(tameAssert, ...args) {
+      this.ran++;
+      const status = tameAssert(...args);
+      status == null 
+        ? this.passed++
+        : this.errors.push(status);
+      return status;
+    }
+
+    toString() {
+      const r = this;
+      var str = `Test ${this.description}: ran ${this.ran}, passed ` +
+        `${this.passed}, failed ${this.errors.length}.`;
+      r.errors.forEach(err => {
+        str += `\n  ${err}`;
+      });
+      return str;
+    }
+
+    // Returns a promise that resolves when all the promises in the whole
+    // suite resolve
+    static runAll() {
+      return Promise.all(_allTests.map(t => t.run()))
+    }
+
+    // Runs all the tests and reports the results to the console
+    static runAndReportAll() {
+      AssertionsPlus.runAll()
+      .then(() => {
+        const agg = {  // aggregated results
+          ran: 0,
+          passed: 0,
+          failed: 0,
+        }
+        const report = _allTests.map(t => {
+          agg.ran += t.ran;
+          agg.passed += t.passed;
+          agg.failed += t.errors.length;
+          return t.toString();
+        }).join('\n');
+
+        console.log(report);
+        console.log(`Total ran ${agg.ran}, passed ${agg.passed}, ` +
+          `failed ${agg.failed}.`);
+      });
+    }
   };
 })();
+

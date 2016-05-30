@@ -4,42 +4,42 @@
 (function() {
   'use strict';
 
-  TreeChart.testWords = function(assert) {
+  new AssertionsPlus('words', function(assert) {
 
-    // Instantiate a word list synchronously
+    function wordsTest(words) {
+      assert.isAbove(words.length, 100000, 'word list seems too short');
 
-    const words = new TreeChart.Words(TreeChart.WordList);
-    assert(words.length > 100000, 'word list seems too short');
-
-    // Test that if we pick ten random words, we'll get at least nine different
-    // ones. Not sure what the odds are, but should be pretty high
-    const randomWords = {};
-    for (let i = 0; i < 10; ++i) {
-      const w = words.pick();
-      //console.log('got random word: ' + w);
-      randomWords[w] = true;
+      // Test that if we pick ten random words, we'll get at least nine different
+      // ones. Not sure what the odds are, but should be pretty high
+      const randomWords = {};
+      for (let i = 0; i < 10; ++i) {
+        const w = words.pick();
+        //console.log('got random word: ' + w);
+        randomWords[w] = true;
+      }
+      assert.isAtLeast(Object.keys(randomWords).length, 9, 
+        'words aren\'t random enough');
     }
-    assert(Object.keys(randomWords).length >= 9, 'words aren\'t random enough');
+
+    // Synchronous
+    wordsTest(new TreeChart.Words(TreeChart.WordList));
+
+    const relPath = '../node_modules/word-list-json/words.json';
 
     // Async from a file (Node.js only)
     if (typeof module !== 'undefined') {
-      console.log('===== NODE =====');
-
-      assert.promise(
-        TreeChart.Words.fromFile('/path/to/words.json')
-        .then(function(words) {
-          console.log('aok');
-          return true;
-        })
-        .catch(function(err) {
-          return assert.fail(null, null, 'Expected to get word list: ' + err);
-        })
+      assert.promise('failed to get words from filesystem',
+        TreeChart.Words.fromFile(relPath)
+          .then(wordsTest)
       );
-
-
+    }
+    else {
+      assert.promise('failed to fetch words',
+        TreeChart.Words.fromFetch(relPath)
+          .then(wordsTest)
+      );
     }
 
-
     return assert.results;
-  };
+  });
 })();

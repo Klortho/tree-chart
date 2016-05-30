@@ -21,7 +21,7 @@
 //
 // In browser, async (uses fetch):
 //
-//   TreeChart.Words.fromUrl('path/to/words.json')
+//   TreeChart.Words.fromFetch('path/to/words.json')
 //   then(function(words) {
 //     ...
 //   })
@@ -38,7 +38,15 @@
     // Node.js only. Uses `fs-promise`
     static fromFile(path) {
       const fsp = require('fs-promise');
-      return fsp.readJson(path);
+      return fsp.readJson(path)
+        .then(json => new Words(json.words));
+    }
+
+    // In the browser, instantiate using fetch
+    static fromFetch(url) {
+      return fetch(url)
+        .then(response => response.json())
+        .then(json => new Words(json.words));
     }
 
     get length() {
