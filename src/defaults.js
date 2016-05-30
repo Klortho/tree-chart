@@ -40,9 +40,9 @@
           // the fixed-width courier-new font. The d3svg renderer uses the actual
           // bounding box. Note that these are recipes that return functions
           // that are called on each data item at layout time.
-          'content-height': C1(X=> d => 1.5 * X.chart['font-size']),
           'content-width': C1(X=> 
             d => 86.4 * d.text.length / X.chart['font-size']),
+          'content-height': C1(X=> d => 1.5 * X.chart['font-size']),
 
           padding: 4,
           border: 1.5,

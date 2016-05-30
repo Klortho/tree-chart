@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/Klortho/tree-chart#readme",
   "devDependencies": {
+    "chai": "^3.5.0",
     "word-list-json": "^0.2.0"
   },
   "dependencies": {
