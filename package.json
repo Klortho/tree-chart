@@ -1,0 +1,27 @@
+{
+  "name": "tree-chart",
+  "version": "0.0.1",
+  "description": "Simple animated tree diagrams",
+  "main": "TreeChart",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Klortho/tree-chart.git"
+  },
+  "keywords": [
+    "d3",
+    "tree"
+  ],
+  "author": "Chris Maloney <voldrani@gmail.com>",
+  "license": "PDDL-1.0",
+  "bugs": {
+    "url": "https://github.com/Klortho/tree-chart/issues"
+  },
+  "homepage": "https://github.com/Klortho/tree-chart#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "concat-files": "^0.1.0",
+    "word-list-json": "^0.2.0"
+  },
+  "dependencies": {}
+}
