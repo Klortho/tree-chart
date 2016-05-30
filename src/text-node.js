@@ -23,12 +23,16 @@
       return _nextId++;
     }
 
-
     // Copy a node, without its children, and with or without changing 
     // the text. This produces a new 
     // object that's identified as the same in the tree drawing.
     copy(text=null) {
       return new TextNode(this.text, this.__id);
+    }
+
+    // Is this node the same as the other? 
+    same(other) {
+      return this.__id === other.__id;
     }
 
 

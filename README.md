@@ -25,6 +25,8 @@ Then bring up index.html in your browser to see the demo (currently broken).
 * Add other renderers; for example, a simple HTML/CSS renderer that uses boxes
   and absolute positions. (Straight-line diagonals could even be drawn with
   one border of a div that's rotated).
+* Define a base `Node` class, from which `TextNode` inherits. What are the
+  essential methods? At least constructor, copy.
 
 
 ## ES6 tricks

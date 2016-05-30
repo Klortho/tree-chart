@@ -9,10 +9,6 @@ const {test, report} = tester({ debug: true, haltOnError: false });
 
 
 
-const compareNodes = (n1, n2) => {
-  if (!n1.__id || !n2.__id) throw Error('bad id');
-  return n1.__id === n2.__id;
-};
 
 
 //-------------------------------------------------------------
@@ -30,48 +26,8 @@ const walk = R.curry(function(pre, post, node) {
 });
 
 
-document.onkeydown = function (evt) {
-  console.log('onkeydown evt: ', evt);
-  const evtName = 
-    evt.keyCode == 27 ? 'escape' :
-    evt.keyCode == 32 ? 'space' :
-    null;
-  if (evtName) document.dispatchEvent(new Event('escape'));
-};
 
 
-// Create a looper, with shortcut keys:
-// - <esc> - stop
-// - <space> - restart
-// The function should call cb when it's done.
-
-const makeLooper = function(delay, func) {
-  const cb = () => { /* does nothing yet */ };
-
-  var intervalId = null;
-  const start = () => {
-    if (intervalId == null) {
-      console.log('starting');
-      intervalId = setInterval(() => func(cb), delay);
-    }
-    else console.log('already started');  
-    document.getElementById('state').innerHTML = 'running';
-  };
-  const stop = () => {
-    if (intervalId) {
-      console.log('stopping');
-      clearInterval(intervalId);
-    }
-    else console.log('already stopped');
-    intervalId = null;
-    document.getElementById('state').innerHTML = 'stopped';
-  };
-  
-  document.addEventListener('escape', stop);
-  document.addEventListener('space', start);
-
-  start();
-};
 
 const treeDemo = function(chartElem) {
   const chartId = chartElem.getAttribute('id');
@@ -140,52 +96,6 @@ const treeDemo = function(chartElem) {
       return newTree;
     };
 
-/*
-// word => tree node representing that word
-const wordNode = (() => {
-  let idCounter = 1;
-  return word => ({
-    id: idCounter++,
-    text: word,
-    children: [],
-  });
-})();
-*/
-
-
-/*
-    // FIXME: instead of this, create a new node, using the tree-chart's
-    // id functionality to identify it as the same logical node
-    // This function changes the text of node at random
-    const spinText = node => {
-      console.log(':spinText');
-      withOdds(50, () => { node.text = randomWord(); })
-    };
-
-    // have some kids at random
-    const sow = node => {
-      console.log(':sow');
-      // have some new kids
-      withOdds(25, () => {
-        const kid = newNode();
-        node.children.push(newNode());
-        kid.parent = node;
-      });
-    };
-
-    const killOne = function(tree) {
-      console.log(':killOne');
-      const nodes = [];
-      walk(n => {nodes.push(n);}, null, tree);
-      const i = Math.floor(Math.random() * nodes.length);
-      const kid = nodes[i];
-      if (kid.parent) {  // don't delete the root!
-        const sibs = kid.parent.children;
-        const sibi = sibs.indexOf(kid);
-        sibs.splice(sibi, 1);
-      }
-    };
-*/    
 
     // Make a new copy of the tree, changed. For each node, with a random
     // probability, change the label, the color, add children, other features. 

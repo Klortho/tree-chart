@@ -13,8 +13,4 @@ const TreeChart = function() {
       this.options = C1.extend(TreeChart.Defaults.value, _opts);
     }
   };
-
-
-
 }();
-

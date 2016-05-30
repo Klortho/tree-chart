@@ -18,6 +18,8 @@
     assert.equal(y.text, 'zorumbus');
     assert.equal(y.children.length, 0);
 
+    assert(z.same(y));
+
 
     return assert.results;
   };
