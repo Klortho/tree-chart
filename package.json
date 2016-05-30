@@ -25,6 +25,7 @@
     "word-list-json": "^0.2.0"
   },
   "dependencies": {
-    "config-one": "0.0.1"
+    "config-one": "0.0.1",
+    "fs-promise": "^0.5.0"
   }
 }

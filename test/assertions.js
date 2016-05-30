@@ -1,6 +1,9 @@
 //----------------------------------------------------------------
 // assertions.js - defines a function that we use to import chai
-// and extend its functionality
+// and extend its functionality.
+// All of the assert functions push their results onto a locally bound
+// `results` array. They also all return either `null` on success, or an
+// error message string on failure.
 
 // We would have this (but it's already included):
 // const assert = require('chai').assert;
@@ -14,6 +17,7 @@
     const results = {
       ran: 0,
       passed: 0,
+      promises: [],
     };
 
     const cassert = chai.assert;
@@ -56,6 +60,21 @@
         return callChai(fname, ...args);
       };
     });
+
+    // To test promises:
+    //   assert.promise(
+    //     unit.asyncFunc()
+    //     .then(data => {
+    //       ... test using other assert functions, as normal ...
+    //     })
+    //     .catch(err => {
+    //       assert.fail(null, null, 'unit async failed: ' + err)
+    //     })
+    //   );
+    assert.promise = function(p) {
+      results.promises.push(p);
+      return p;
+    }
 
     assert.results = results;
     return assert;

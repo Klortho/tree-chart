@@ -18,13 +18,14 @@ fetch('node_modules/word-list-json/words.json')
 
 
 
-// The main loop is controlled by a timer that emits poisson process events.
+// The main loop is controlled by a timer that emits poisson process events,
+// random events with an average frequency of `speed` Hz.
 // The timer is always going; when the looping is disabled, we just ignore it.
 
 class Looper {
   constructor() {
     this.enabled = true;
-    this.speed = 1;
+    this.speed = 0.5;
     this.nextEvent = () => -1000 * Math.log(Math.random()) / this.speed;
     this.listen();
     this.ticker();
