@@ -23,5 +23,7 @@
   "devDependencies": {
     "word-list-json": "^0.2.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "config-one": "0.0.1"
+  }
 }

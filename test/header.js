@@ -17,6 +17,7 @@ const TreeChart = (function() {
         else {
           console.error('Failed: ' + msg);
         }
+        return pred;
       };
       assert.results = results;
       return assert;

@@ -8,4 +8,8 @@ test-word-list.js
 ../src/words.js
 test-words.js
 
+../node_modules/config-one/dist/config1.js
+../src/defaults.js
+test-defaults.js
+
 footer.js

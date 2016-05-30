@@ -22,6 +22,9 @@ Then bring up index.html in your browser to see the demo (currently broken).
 ## To do
 
 * Integrate this [pan-zoom library](https://github.com/ariutta/svg-pan-zoom)
+* Add other renderers; for example, a simple HTML/CSS renderer that uses boxes
+  and absolute positions. (Straight-line diagonals could even be drawn with
+  one border of a div that's rotated).
 
 
 ## ES6 tricks
