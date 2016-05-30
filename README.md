@@ -29,6 +29,17 @@ problems. So I backed off, and now, the files that make up this library are:
   once in Node.js, and once in the browser by manually reloading 
   test/index.html. (See [test/README.md](test/README.md)).
 
+The pattern I'm using for each module is:
+
+```
+(function() {
+  'use strict';
+  TreeChart.ModuleName = '...';
+})();
+```
+
+
+
 
 ----
 
