@@ -5,7 +5,7 @@
 // The main thing this is used for is to make an iterator that produces a new
 // random word from the list with every iteration.
 
-WordList = (function() {
+TreeChart.Words = (function() {
   'use strict';
 
   // FIXME

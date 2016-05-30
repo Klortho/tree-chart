@@ -1,0 +1,5 @@
+//----------------------------------------------------------------
+// word-list-header.txt, words.json, word-list-footer.txt
+
+(function() {
+  TreeChart.WordList = 

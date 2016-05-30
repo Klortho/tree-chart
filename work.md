@@ -1,6 +1,7 @@
 To do:
 
-* Take dependencies out of vendor -- use node_modules if at all possible.
+# Queue
+
 * Separate out, and test, the word list utilities
 * randomly change the colors
 * slow motion
@@ -8,12 +9,8 @@ To do:
     * current state
     * description of shortcuts
 
-* make sure it is rock-solidly robust.
-    * check for memory leaks
-* get it to work from webpack
-* Move tester.js into a separate library, funcutils.
+# Current work
 
-
-# Work
-
+* Word list - 1/2 hour - 10:40
+    * I just want a function that returns a new random word whenever called.
 

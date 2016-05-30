@@ -1,4 +1,8 @@
 //----------------------------------------------------------------
-// header.js
+// header.js - this has to come first.
 
-const TC = {};
+const TreeChart = (function() {
+  return {
+
+  };
+})();
