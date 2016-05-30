@@ -5,7 +5,16 @@
 const TreeChart = function() {
   'use strict';
 
-  return {
+  // const C1 = require('config-one');
+  const C1 = config1;
+
+  return class {
+    constructor(_opts = {}) {
+      this.options = C1.extend(TreeChart.Defaults.value, _opts);
+    }
   };
+
+
+
 }();
 

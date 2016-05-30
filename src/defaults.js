@@ -15,6 +15,14 @@
     static get value() {
       return C1.extend({
 
+        renderer: {
+          select: 'd3svg',
+          available: {
+            d3svg: TreeChart.D3svg,
+          },
+          selected: C1(X=> X.renderer.available[X.renderer.select]),
+        },
+
         // settings that apply to the drawing as a whole
         chart: {
           orientation: 'horizontal',

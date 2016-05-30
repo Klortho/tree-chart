@@ -20,6 +20,6 @@ Current work
 
 ## Demo
 
-* Get the words into TreeChart.WordList
 * First create a main method that creates the TreeChart object
 
+* Create a TextNode class .
