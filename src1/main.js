@@ -34,8 +34,6 @@ TreeChart = (function() {
           },
           selected: C1(X=> X.renderer.available[X.renderer.select]),
         },
-
-
       });
     }
   };

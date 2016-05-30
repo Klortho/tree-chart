@@ -3,8 +3,6 @@ To do:
 # Queue
 
 * Strategy:
-    * Get default TreeChart options into a separate module, without much real
-      data yet, integrated with config1, and tested
     * Then TDD: start the demo index.html page, and develop as needed to make
       it work.
 
@@ -15,8 +13,13 @@ To do:
     * current state
     * description of keyboard shortcuts
 
-# Current work
 
-* Word list - 1/2 hour - 10:40
-    * I just want a function that returns a new random word whenever called.
+
+Current work
+============
+
+## Demo
+
+* Get the words into TreeChart.WordList
+* First create a main method that creates the TreeChart object
 
