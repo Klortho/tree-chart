@@ -7,31 +7,7 @@ const {test, report} = tester({ debug: true, haltOnError: false });
 //---------------------------------------------------
 // WordNode class
 
-// Constructor
-// word => tree node representing that word
-const wordNode = (() => {
-  let idCounter = 1;
-  return word => ({
-    __id: idCounter++,
-    text: word,
-    children: [],
-  });
-})();
-test('wordNode', assert => {
-  const z = wordNode('zorumbus');
-  assert(z.__id == 1);
-  assert(z.text == 'zorumbus');
-  assert(z.children.length == 0);
-});
 
-// Copy a word node, without it's children, and with or without changing 
-// the word. This produces a new 
-// object that's identified as the same in the tree drawing
-const copyNode = (orig, word=null) => ({
-  __id: orig.__id,
-  text: word || orig.text,
-  children: [],
-});
 
 const compareNodes = (n1, n2) => {
   if (!n1.__id || !n2.__id) throw Error('bad id');

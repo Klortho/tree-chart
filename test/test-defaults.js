@@ -13,14 +13,18 @@
       const n = defaults.node;
       const mockNode = { text: 'banana' };
 
-      assert.equal(n['content-width'](mockNode), 43.2);
-      assert.equal(n['content-height'](mockNode), 18);
-      assert.equal(n['box-width'](mockNode), 54.2);
-      assert.equal(n['box-height'](mockNode), 29);
-      assert.equal(n['width'](mockNode), 94.2);
-      assert.equal(n['height'](mockNode), 39);
-      assert.deepEqual(n['anchor-in'](mockNode), { x: 0, y: 19.5 });
-      assert.deepEqual(n['anchor-out'](mockNode), { x: 54.2, y: 19.5 });
+      assert.closeTo(n['content-width'](mockNode), 43.2, 0.0001);
+      assert.closeTo(n['content-height'](mockNode), 18, 0.0001);
+      assert.closeTo(n['box-width'](mockNode), 54.2, 0.0001);
+      assert.closeTo(n['box-height'](mockNode), 29, 0.0001);
+      assert.closeTo(n['width'](mockNode), 94.2, 0.0001);
+      assert.closeTo(n['height'](mockNode), 39, 0.0001);
+
+      assert.closeTo(n['anchor-in'](mockNode).x, 0, 0.0001);
+      assert.closeTo(n['anchor-in'](mockNode).y, 19.5, 0.0001);
+
+      assert.closeTo(n['anchor-out'](mockNode).x, 54.2, 0.0001);
+      assert.closeTo(n['anchor-out'](mockNode).y, 19.5, 0.0001);
     }
     return assert.results;
   };

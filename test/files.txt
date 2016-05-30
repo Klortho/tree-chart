@@ -3,13 +3,12 @@ header.js
 ../node_modules/config-one/dist/config1.js
 
 ../src/main.js
-
 ../src/defaults.js
-
 word-list-header.txt
 ../node_modules/word-list-json/words.json
 word-list-footer.txt
 ../src/words.js
+../src/text-node.js
 
 ../node_modules/chai/chai.js
 assertions.js
@@ -17,5 +16,6 @@ test-main.js
 test-defaults.js
 test-word-list.js
 test-words.js
+test-text-node.js
 
 footer.js

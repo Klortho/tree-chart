@@ -22,4 +22,4 @@ Current work
 
 * First create a main method that creates the TreeChart object
 
-* Create a TextNode class .
+* Create a TextTree class, that implements everything specific to the demo.
