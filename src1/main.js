@@ -2,7 +2,7 @@
 // useful as-is. They define a horizontal tree display, where each node is a
 // rectangular box with a word in it.
 
-// The model looks like this:
+// The data model looks like this:
 // { id: 1,
 //   text: 'subglobose',
 //   color: 'blue',

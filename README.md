@@ -14,7 +14,28 @@ Test:
 npm test
 ```
 
+Then bring up index.html in your browser to see the demo (currently broken).
 
+
+
+
+## To do
+
+* Integrate this [pan-zoom library](https://github.com/ariutta/svg-pan-zoom)
+
+
+## ES6 tricks
+
+* Use `Array.from()` to convert DOM Node lists into arrays.
+
+* Note also that they are iterable:
+
+    ```
+     for (let node of document.querySelectorAll('···')) {
+        ···
+    }
+    ```
+    
 ## State of this software
 
 I ventured to learn and implement a lot of new tools at once, and ran into 
@@ -38,30 +59,3 @@ The pattern I'm using for each module is:
 })();
 ```
 
-
-
-
-----
-
-
-
-Then bring up index.html in your browser to see the demo (currently broken).
-
-
-## To do
-
-* Integrate this [pan-zoom library](https://github.com/ariutta/svg-pan-zoom)
-
-
-## ES6 tricks
-
-* Use `Array.from()` to convert DOM Node lists into arrays.
-
-* Note also that they are iterable:
-
-    ```
-     for (let node of document.querySelectorAll('···')) {
-        ···
-    }
-    ```
-    

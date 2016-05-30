@@ -2,12 +2,18 @@ To do:
 
 # Queue
 
-* Separate out, and test, the word list utilities
-* randomly change the colors
+* Strategy:
+    * Get default TreeChart options into a separate module, without much real
+      data yet, integrated with config1, and tested
+    * Then TDD: start the demo index.html page, and develop as needed to make
+      it work.
+
+
+* randomly change the colors and/or other style attributes
 * slow motion
-* add a key with:
+* add a "legend" with:
     * current state
-    * description of shortcuts
+    * description of keyboard shortcuts
 
 # Current work
 
