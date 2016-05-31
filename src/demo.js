@@ -5,8 +5,7 @@
 const Demo = (function() {
   'use strict';
 
-  // const C1 = require('config-one');
-  const C1 = config1;
+  const C1 = TreeChart.config1;
 
   class Demo {
 

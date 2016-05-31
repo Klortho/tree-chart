@@ -3,8 +3,6 @@
 (function() {
   'use strict';
 
-  const C1 = config1;
-
   class D3svg_Node {
     constructor(d3svg) {
       this.d3svg = d3svg;  // our parent, the renderer instance
@@ -17,6 +15,7 @@
     }
 
     drawEnter(node) {
+      const C1 = TreeChart.config1;
 
       /* test: 
       node['content-width'] = 100; */

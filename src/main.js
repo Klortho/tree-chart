@@ -5,12 +5,14 @@
 const TreeChart = function() {
   'use strict';
 
-  // const C1 = require('config-one');
-  const C1 = config1;
-
   class TreeChart {
 
     constructor(_opts=null, chartElem) {
+      const C1 = TreeChart.config1;
+
+      // Add a symbol to tinycolor, to tell C1 to treat it as atomic.
+      tinycolor.prototype[C1.c1symbol] = { atomic: true };
+
       const opts = this.options = C1.extend(TreeChart.defaults, (_opts || {}));
       this.tree = null;
       this.chartElem = chartElem;
@@ -79,6 +81,10 @@ const TreeChart = function() {
     }
 
   };
+
+  // const C1 = require('config-one');
+  TreeChart.config1 = config1;
+
 
   TreeChart._nextId = 1;
 

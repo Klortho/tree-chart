@@ -11,6 +11,7 @@
     // This is instantiated by TreeChart. Options are overridden there.
     // This class uses those by reference.
     constructor(chart) {
+      const C1 = TreeChart.config1;
       this.chart = chart;
       const opts = this.options = chart.options;
 

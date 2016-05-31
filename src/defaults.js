@@ -7,8 +7,7 @@
 (function() {
   'use strict';
 
-  // const C1 = require('config-one');
-  const C1 = config1;
+  const C1 = TreeChart.config1;
 
   // Some functions for manipulating colors. Colors are given in the config
   // as an object specifying HSL values. The tinycolor2 library can manipulate
@@ -39,11 +38,12 @@
     // draw anything you want for a node. 
     //
     // The required items are those that the layout and drawing functions 
-    // access, and those are indicated. Other settings are based on the
+    // access, and are indicated below. Other settings are based on the
     // default implementation as boxes.
     //
-    // The names for some dimensions are borrowed from CSS, but it's not an
-    // implementation of the box model.
+    // Some names are borrowed from CSS, but there's nothing as sophisticated
+    // as the box model.
+
     node: {
 
     /* taking text-related stuff out for now
@@ -100,13 +100,13 @@
       })),
 
 
-      // Border color forms the basis of our computed color scheme
+      // Border color forms the basis of our computed color scheme. Note that
+      // tinycolor objects are declared to config-one as atomic, so you can
+      // use them without worrying about them losing their prototypes.
       'border-color': tinycolor({h: 90, s: 0.43, l: 0.49}),
 
       // Make sure you use `clone()` with tinycolor!
       fill: C1(X=> X.node['border-color'].clone().brighten(60)),
-
-
     }
   };
 
