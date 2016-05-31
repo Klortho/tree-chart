@@ -27,7 +27,7 @@
     const relPath = '../node_modules/word-list-json/words.json';
 
     // Async from a file (Node.js only)
-    if (typeof module !== 'undefined') {
+    if (typeof __node === 'boolean' && __node) {
       assert.promise('failed to get words from filesystem',
         TreeChart.Words.fromFile(relPath)
           .then(wordsTest)

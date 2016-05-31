@@ -25,16 +25,6 @@
           filter: 'url(#dropshadow)',
         });
 
-      /* testing
-      node['content-width'] = 10;
-      node['content-height'] = 10;
-      node.padding = 50;
-      node.border = 50;
-      node['margin-top'] = 0;
-      node['margin-right'] = 0;
-      node['margin-bottom'] = 0;
-      node['margin-left'] = 0; */
-
       const contentWidth = nopts['content-width'];
       const contentHeight = nopts['content-height'];
       const padding = nopts.padding;
@@ -49,12 +39,6 @@
       const rectHeight = border + 2 * padding + contentHeight;
       const rectX = marginLeft + border / 2;
       const rectY = (marginTop - marginBottom - contentHeight - border) / 2 - padding;
-
-      /* testing
-      console.log('rectWidth: ', rectWidth);
-      console.log('rectHeight: ', rectHeight);
-      console.log('rectX: ', rectX);
-      console.log('rectY: ', rectY); */
 
       nodeG.append("rect")
         .attr({

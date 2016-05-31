@@ -8,7 +8,7 @@
 
     const chart = new TreeChart();
     assert.isDefined(chart);
-    assert.equal(chart.options.renderer.select, 'd3svg');
+    assert.equal(chart.options.renderer.selected.name, 'd3svg');
 
     return assert.results;
   });

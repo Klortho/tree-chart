@@ -37,9 +37,11 @@
 
     // Node.js only. Uses `fs-promise`
     static fromFile(path) {
-      const fsp = require('fs-promise');
-      return fsp.readJson(path)
-        .then(json => new Words(json.words));
+      if (typeof require === 'function') {
+        const fsp = require('fs-promise');
+        return fsp.readJson(path)
+          .then(json => new Words(json.words));
+      }
     }
 
     // In the browser, instantiate using fetch

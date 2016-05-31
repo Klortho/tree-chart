@@ -69,7 +69,7 @@ const TreeChart = function() {
 
       // Do the layout - modifies the Tree instances in-place. 
       const nodes = this.nodes = this.flextree.nodes(this.tree);
-      this.links = this.flextree.links(nodes);
+      const links = this.links = this.flextree.links(nodes);
 
       // Fix up:
       // - flextree removes empty `children` arrays for some reason. Let's put
@@ -89,10 +89,8 @@ const TreeChart = function() {
         renderer.drawEnter(node);
       });
 
-
-
+      links.forEach(link => renderer.drawLink(link));
     }
-
   };
 
   // const C1 = require('config-one');

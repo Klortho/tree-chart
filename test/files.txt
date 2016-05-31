@@ -8,6 +8,9 @@ d3-wrap-foot.txt
 
 ../node_modules/d3-flextree/dist/d3-flextree.js
 
+../node_modules/tinycolor2/tinycolor.js
+
+../src/microcolor.js
 ../src/main.js
 ../src/defaults.js
 
