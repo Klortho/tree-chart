@@ -11,22 +11,26 @@
         border: 1px solid #777;
         background: #EEE;
         overflow: hidden;
+        margin: 1em 0;
       }
     </style>
   </head>
   <body>
     <div id='state' style='float: right'></div>
     <h1>tree-chart demo</h1>
-    <div class='tree-demo' id='chart'></div>
 
+    <!-- Here are two charts -->
+    <div class='tree-demo' id='chart1'></div>
+    <div class='tree-demo' id='chart2'></div>
+    <div class='tree-demo' id='chart3'></div>
 
     <script src='node_modules/config-one/dist/config1.js'></script>
 
     <script src='src/main.js'></script>
-    <script src='src/words.js'></script>
     <script src='src/demo.js'></script>
     <script>
-      new Demo().start();
+      const demos = Demo.start({selector: '.tree-demo'});
+      console.log('started ' + demos.length + ' new charts');
     </script>
 
   </body>

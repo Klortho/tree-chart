@@ -7,7 +7,7 @@
   new AssertionsPlus('defaults', function(assert) {
     if (null == assert.isDefined(config1, 'Where\'s C1?')) {
       const C1 = config1;
-      const defaults = TreeChart.Defaults.value;
+      const defaults = C1.extend(TreeChart.defaults);
       assert.equal(defaults.chart.width, 800, 'Default chart width should be 800');
 
       const n = defaults.node;

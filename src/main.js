@@ -10,7 +10,7 @@ const TreeChart = function() {
 
   return class {
     constructor(_opts = {}) {
-      this.options = C1.extend(TreeChart.Defaults.value, _opts);
+      this.options = C1.extend(TreeChart.defaults, _opts);
     }
   };
 }();
