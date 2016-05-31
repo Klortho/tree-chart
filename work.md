@@ -2,31 +2,72 @@ To do:
 
 # Queue
 
-* After creating a plain demo, make a random-words demo
+* Plain boxes demo
+* Random words demo
 
 
-* randomly change the colors and/or other style attributes
+## Nice to haves
+
+* randomly change the colors and/or other style attributes, on the fly
 * slow motion
 * add a "legend" with:
     * current state
     * description of keyboard shortcuts
 
 
+# Current work
 
-Current work
-============
+* Overall geometry
+    * (/) height/width
+    * (/)transformation: translate(0, height/2)
+* (/)Get this box where it belongs
+* (/)All these node-related functions:
+    * For Node implementation (no text): default is to grab the value off the
+      node itself.
 
-It is time to start seeing pretty boxes.
-
-* (/)demo needs to instantiate a TreeChart
-* (/)and initialize a tree (no text)
-
-* Get the chart to draw the tree.
-    * TreeChart has to do it's initialization voodoo.
-    
-    * Let's try not wrapping the Node objects. If need be, attach metadata
-      using a Symbol.
+* Get color computer (tinycolor) back in.
 
 
 
-* ticker should then morph the tree
+
+
+
+
+
+# Implementation notes
+
+## Class hierarchy
+
+The original node/tree data: this doesn't even know that it is being rendered.
+No wrappers, I don't think. We can use a Symbol to add metadata, if needed
+(but for now just add it directly).
+
+* `Node` - plain trees with rectangular boxes, but no text.
+* `TextNode` - boxes for nodes, with text
+* others will be needed for modeling config-one
+
+Layout management and delegation. This is the "controller":
+
+* `TreeChart` - handles layout management, but doesn't know how
+  to draw; it delegates to a renderer. `TreeChart` takes the place of the old
+  `LayoutEngine`
+
+Renderers
+
+* `D3svg` - Gets events from TreeChart, manages the frame
+* `D3svg_Node` - draws things specific to the Node
+* `D3svg_TextNode`
+
+
+## Data binding
+
+* Every `Node` object has an __id.
+* The master SVG `<g>` element for  a Node has a matching @id attribute.
+* Child elements of that `<g>` each also have a @data-id attribute with the
+  same value
+
+
+
+
+
+

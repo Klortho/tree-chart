@@ -10,14 +10,18 @@
   // const C1 = require('config-one');
   const C1 = config1;
 
+  // This function returns a function of node, that returns property of the 
+  // node, or else a default value
+  const prop = (pname, def) =>
+    node => (pname in node) ? node[pname] : def;
+
   TreeChart.defaults = {
 
     renderer: {
-      select: 'd3svg',
-      available: {
-        d3svg: TreeChart.D3svg,
-      },
-      selected: C1(X=> X.renderer.available[X.renderer.select]),
+      // Note that this one has to be in a recipe, because .D3svg hasn't been
+      // assigned
+      selected: C1(X=> TreeChart.D3svg),
+      nodeRenderer: C1(X=> TreeChart.D3svg_Node),
     },
 
     // settings that apply to the drawing as a whole
@@ -41,6 +45,8 @@
     // The names for some dimensions are borrowed from CSS, but it's not an
     // implementation of the box model.
     node: {
+
+    /* taking text-related stuff out for now
       // These calculations of the width and height use estimates based on 
       // the fixed-width courier-new font. The d3svg renderer uses the actual
       // bounding box. Note that these are recipes that return functions
@@ -48,52 +54,54 @@
       'content-width': C1(X=> 
         d => 86.4 * d.text.length / X.chart['font-size']),
       'content-height': C1(X=> d => 1.5 * X.chart['font-size']),
+      'content-width': C1(X=> 
+        d => 86.4 * d.text.length / X.chart['font-size']),
+      'content-height': C1(X=> d => 1.5 * X.chart['font-size']),
+    */
 
-      padding: 4,
-      border: 1.5,
-      'margin-top': 5,
-      'margin-right': 40,
-      'margin-bottom': 5,
-      'margin-left': 0,
-
-      // box-width and box-height - derived quantities
-      'box-width': C1(X=> d=> {
-        const n = X.node;
-        return 2 * n.border + 2 * n.padding + n['content-width'](d);
-      }),
-      'box-height': C1(X=> d=> {
-        const n = X.node;
-        return 2 * n.border + 2 * n.padding + n['content-height'](d);
-      }),
+      'content-width': prop('content-width', 50),
+      'content-height': prop('content-height', 30),
+      padding: prop('padding', 4),
+      border: prop('border', 1.5),
+      'margin-top': prop('margin-top', 5),
+      'margin-right': prop('margin-right', 40),
+      'margin-bottom': prop('margin-bottom', 5),
+      'margin-left': prop('margin-left', 0),
 
       // The following node settings are required by the API
 
       // width - required - overall width of the box used in layout
       width: C1(X=> d => {
         const n = X.node;
-        return n['margin-left'] + n['box-width'](d) + n['margin-right'];
+        return n['margin-left'](d) + 2 * n.border(d) + n['content-width'](d) +
+          2 * n.padding(d) + n['margin-right'](d);
       }),
 
       // height - required
       height: C1(X=> d => {
         const n = X.node;
-        return n['margin-top'] + n['box-height'](d) + n['margin-bottom'];
+        return n['margin-top'](d) + 2 * n.border(d) + n['content-height'](d) +
+          2 * n.padding(d) + n['margin-bottom'](d);
       }),
 
       // anchor-in - required.
       // Point within the boxes where the line from the parent node
       // connects to this node.
       'anchor-in': C1(X=> d => ({
-        x: X.node['margin-left'],
-        y: X.node['margin-bottom'] + X.node['box-height'](d) / 2
+        x: X.node['margin-left'](d),
+        y: (X.node['margin-top'](d) - X.node['margin-bottom'](d)) / 2,
       })),
 
       // anchor-out - required - Point from which the lines connecting this
       // node to its children originates.
       'anchor-out': C1(X=> d => ({ 
-        x: X.node['margin-left'] + X.node['box-width'](d),
-        y: X.node['margin-bottom'] + X.node['box-height'](d) / 2
+        x: X.node.width(d) - X.node['margin-left'](d),
+        y: (X.node['margin-top'](d) - X.node['margin-bottom'](d)) / 2,
       })),
+
+      fill: prop('fill', 'red'),
+
+      'border-color': prop('border-color', 'blue'),
     }
   };
 

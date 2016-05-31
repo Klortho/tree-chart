@@ -53,20 +53,6 @@
       return tree;
     };
 
-    // svg definitions -- this is the drop-shadow
-    Tree.defs = [
-      ` <filter id='dropshadow' height='130%'>
-          <feGaussianBlur in='SourceAlpha' stdDeviation='3'/>
-          <feOffset dx='2' dy='2' result='offsetblur'/>
-          <feComponentTransfer>
-            <feFuncA type='linear' slope='.5'/>
-          </feComponentTransfer>
-          <feMerge>
-            <feMergeNode/>
-            <feMergeNode in='SourceGraphic'/>
-          </feMerge>
-        </filter>`];
-
     // the selector for the svg elements corresponding to these
     Tree.selector = 'g.node';
 
@@ -116,27 +102,8 @@
       //  self.morphTo.remove();
       //}
 
-      // parent svg element
-      const _class = 'node ' + (self.orig['class'] || '');
-      const nodeElem = self.elem = frame.append("g")
-        .attr({
-          'class': _class,
-          filter: 'url(#dropshadow)',
-        });
-      nodeElem.attr('id', self.id);
-
       self.textElem = self.drawText(nodeElem);
 
-      // the rect
-      self.boxElem = nodeElem.append("rect")
-        .attr({
-          'data-id': self.id,
-          width: self._width,
-          height: self._height,
-          y: -self._height / 2,
-          rx: 2.5,
-          ry: 2.5,
-        });
 
       self.textElem.moveToFront();
       return nodeElem;

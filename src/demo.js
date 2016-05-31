@@ -14,13 +14,13 @@ const Demo = (function() {
     // instance per matched element.
     static start(_opts=null) {
       const opts = C1.extend(Demo.defaults, (_opts || {}));
-      const elems = Array.from(
+      const chartElems = Array.from(
         document.querySelectorAll(opts.selector) || []);
 
-      console.log('elems: ', elems);
+      console.log('chartElems: ', chartElems);
 
       // Instantiate new demos on those elements that don't already have one
-      const newDemos = elems
+      const newDemos = chartElems
         .filter(elem => !(Demo.binder in elem))
         .map(elem => new Demo(opts, elem));
 
@@ -31,7 +31,7 @@ const Demo = (function() {
     // Constructor - don't use directly; use the start() factory 
     // method. The opts passed in here have already been extended from 
     // defaults.
-    constructor(opts, element) {
+    constructor(opts, chartElem) {
       // Give this a unique id
       this.id = TreeChart.nextId;
 
@@ -42,14 +42,14 @@ const Demo = (function() {
       Object.assign(this, opts);
 
       // double bind
-      this.element = element;
-      element[Demo.binder] = this;
+      this.chartElem = chartElem;
+      chartElem[Demo.binder] = this;
 
       // Instantiate a tree
       this.tree = new TreeChart.Node();
 
       // And a chart
-      this.chart = new TreeChart(null, element);
+      this.chart = new TreeChart(null, chartElem);
 
       // Draw the tree
       this.chart.draw(this.tree);

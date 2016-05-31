@@ -171,34 +171,8 @@ TreeChart = typeof TreeChart !== 'undefined' ? TreeChart : function() {
       });
     }
 
-    // Construct a new diagonal generator. `diagonal` is a function that
-    // draws the lines between the boxes.
-    // See https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal.
-    const diagOpts = opts.svg.diagonal;
-    const diagonal = chart.diagonal = d3.svg.diagonal()
-      .source(diagOpts.source)
-      .target(diagOpts.target)
-      .projection(diagOpts.projection);
 
-    // FIXME: how to get rid of the mutations? At the very least, gotta move
-    // all the data to the end.
 
-    // Initialize the DOM element and SVG
-    chart.container = d3.select(document.querySelector(opts.select));
-    const svgAttr = opts.svg.attr;
-    const svg = chart.svg = chart.container.append("svg")
-      .attr(svgAttr)
-      //.style(opts.svg.style);
-
-    const defs = chart.defs = svg.append("defs");
-    defs.append('defs').html(TreeChart.Tree.defs);
-
-    // frame - the graphical context for the whole drawing
-    const frame = chart.frame = svg.append("g")
-      .attr('transform', `translate(0, ${opts.svg.attr.height/2})`);
-
-    // Retrieve the flextree layout engine
-    const engine = chart.engine = new TreeChart.LayoutEngine(opts);
   };
 
 
