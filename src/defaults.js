@@ -62,7 +62,7 @@
       'content-width': 50,
       'content-height': 30,
       padding: 4,
-      border: 1.5,
+      border: 4,
       'margin-top': 5,
       'margin-right': 40,
       'margin-bottom': 5,
@@ -100,9 +100,13 @@
       })),
 
 
-      fill: 'red',
+      // Border color forms the basis of our computed color scheme
+      'border-color': tinycolor({h: 90, s: 0.43, l: 0.49}),
 
-      'border-color': 'blue',
+      // Make sure you use `clone()` with tinycolor!
+      fill: C1(X=> X.node['border-color'].clone().brighten(60)),
+
+
     }
   };
 
