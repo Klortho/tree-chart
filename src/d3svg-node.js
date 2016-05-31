@@ -15,22 +15,7 @@
     }
 
     drawEnter(node) {
-      const C1 = TreeChart.config1;
-
-      /* test: 
-      node['content-width'] = 100; */
-
-      // Nodes can have settings overrides! Before applying, get a frozen
-      // copy of just the node options
-      const defaults = C1.freeze(this.options.node);
-
-      // Copy just the option key/values from node into a new overrides object
-      const overrides = {};
-      Object.keys(defaults).forEach(k => {
-        if (k in node) overrides[k] = node[k];
-      });
-
-      const nopts = C1.extend(defaults, overrides);
+      const nopts = node.opts;
 
       // Add a <g> element container for this node.
       const nodeG = this.nodeG = this.d3svg.frame.append("g")

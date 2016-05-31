@@ -44,11 +44,20 @@ const Demo = (function() {
       this.chartElem = chartElem;
       chartElem[Demo.binder] = this;
 
-      // Instantiate a tree
-      this.tree = new TreeChart.Node();
+      // Create the chart
+      const chart = this.chart = new TreeChart(null, chartElem);
 
-      // And a chart
-      this.chart = new TreeChart(null, chartElem);
+      // Instantiate a tree
+      this.tree = chart.newNode();
+
+/*
+      const kid1 = new TreeChart.Node();
+      this.tree.addChild(kid1);
+*/
+
+
+
+
 
       // Draw the tree
       this.chart.draw(this.tree);

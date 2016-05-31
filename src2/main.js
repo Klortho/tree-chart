@@ -16,9 +16,6 @@
 TreeChart = typeof TreeChart !== 'undefined' ? TreeChart : function() {
   'use strict';
 
-  // Some functions for manipulating colors
-  const color = colorObj => tinycolor(colorObj).toString();
-  const brighten = colorObj => tinycolor(colorObj).brighten(70).toString();
 
   // FIXME: Partition this well. The generic stuff in the defaults, and
   // stuff related to config-one demo in overrides.
@@ -27,48 +24,7 @@ TreeChart = typeof TreeChart !== 'undefined' ? TreeChart : function() {
       color: color({h: 200, s: 0.43, l: 0.49}),
       // function used to tell if two nodes are the same
       sameNode: (n1, n2) => n1 === n2,
-      svg: {
-        attr: {
-          xmlns: "http://www.w3.org/2000/svg",
-          xlink: "http://www.w3.org/1999/xlink",
-          width: 1000,
-          height: 500,
-        },
-        style: {
-          'font-size': '16px',
-          'font-family': 'sans-serif',
-        },
-        diagonal: {
-          source: d => ({
-            x: d.source.y,
-            y: d.source.x + d.source.width(),
-          }),
-          target: d => ({
-            x: d.target.y,
-            y: d.target.x,
-          }),
-          projection: d => [d.y, d.x],
-        },
-      },
       defaults: {
-        node: {
-          'padding-x': 4,
-          'padding-y': 4,
-          'margin-x': 40,  // diagonals (bezier lines between nodes) fit in here
-          'margin-y': 5,
-          // FIXME: define a default formula for deriving a color scheme from
-          // one base color
-          style: {
-            rect: {
-              'stroke-width': '1.5px',
-              stroke: config1(X=> X.color),
-              fill: config1(X=> brighten(X.color)),
-            },
-            text: {
-              fill: config1(X=> X.color),
-            },
-          }
-        },
         link: {
           style: {
             fill: 'none',

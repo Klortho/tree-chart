@@ -71,33 +71,39 @@
       // The following node settings are required by the API
 
       // width - required - overall width of the box used in layout
-      width: C1(X=> d => {
+      width: C1(X=> {
         const n = X.node;
-        return n['margin-left'](d) + 2 * n.border(d) + n['content-width'](d) +
-          2 * n.padding(d) + n['margin-right'](d);
+        return n['margin-left'] + 2 * n.border + n['content-width'] +
+          2 * n.padding + n['margin-right'];
       }),
 
       // height - required
-      height: C1(X=> d => {
+      height: C1(X=> {
         const n = X.node;
-        return n['margin-top'](d) + 2 * n.border(d) + n['content-height'](d) +
-          2 * n.padding(d) + n['margin-bottom'](d);
+        return n['margin-top'] + 2 * n.border + n['content-height'] +
+          2 * n.padding + n['margin-bottom'];
       }),
 
       // anchor-in - required.
       // Point within the boxes where the line from the parent node
       // connects to this node.
-      'anchor-in': C1(X=> d => ({
-        x: X.node['margin-left'](d),
-        y: (X.node['margin-top'](d) - X.node['margin-bottom'](d)) / 2,
-      })),
+      'anchor-in': C1(X=> {
+        const n = X.node;
+        return {
+          x: n['margin-left'],
+          y: (n['margin-top'] - n['margin-bottom']) / 2,
+        };
+      }),
 
       // anchor-out - required - Point from which the lines connecting this
       // node to its children originates.
-      'anchor-out': C1(X=> d => ({ 
-        x: X.node.width(d) - X.node['margin-left'](d),
-        y: (X.node['margin-top'](d) - X.node['margin-bottom'](d)) / 2,
-      })),
+      'anchor-out': C1(X=> { 
+        const n = X.node;
+        return {
+          x: n.width - n['margin-left'],
+          y: (n['margin-top'] - n['margin-bottom']) / 2,
+        };
+      }),
 
 
       // Border color forms the basis of our computed color scheme. Note that

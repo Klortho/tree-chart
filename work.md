@@ -22,8 +22,19 @@ To do:
 # Current work
 
 
+* Get some more boxes in. 
+    * Hard-code them into the initial tree.
 
-* Get color computer (tinycolor) back in.
+* node options overrides is very interesting:
+    * Every chart can have different opts
+    * The chart's opts act as the defaults for the Node class
+    * So, we need to dynamically generate a factory method
+
+
+
+
+
+* Then get diagonals working
 
 
 

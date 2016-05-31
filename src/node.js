@@ -6,27 +6,60 @@
 
 (function() {
   'use strict';
+  const C1 = TreeChart.config1;
 
   const Node = TreeChart.Node = class {
 
-    // Constructor. Creates a new Node object, which might or might not have
-    // the same __id as another.
-    constructor(id=TreeChart.nextId) {
-      this.__id = id;
-      this.children = [];
+    // Constructor - private. Use a factory instead.
+    constructor() {}
+
+    // Get a Node factory for your chart, using your config settings as the
+    // defaults for every new Node. Both arguments are optional.
+    //
+    // Usage:
+    //   const newNode = Node.getFactory(defaults);
+    //   const node1 = newNode(opts);        // create a brand-new node
+    //   const node2 = newNode(null, node1)  // copy, with or w/o overrides
+
+    static getFactory(defaults) {
+      const factory = function(_opts, origNode) {
+        const newNode = new Node();
+
+        // If this is a copy, reuse the same __id.
+        newNode.__id = 
+          (typeof origNode !== 'undefined' && origNode && '__id' in origNode) ? 
+          origNode.__id : TreeChart.nextId;
+
+        // No children to start
+        newNode.children = [];
+
+        // Normalize the options argument - it needs to be relative to the
+        // root config
+        const opts = _opts && typeof _opts === 'object' ? { node: _opts } : null;
+
+        // Attach the options -- only do extend if `_opts` was given
+        const finalOpts = opts ? C1.extend(defaults, opts) : defaults;
+        newNode.opts = finalOpts.node; 
+
+        return newNode;
+      };
+
+      return factory;
     }
 
-    // Copy a node, without its children. This produces a new 
-    // object that has the same __id, so it is identified as the same 
-    // in the tree drawing, for purposes of transitions.
-    copy() {
-      return new Node(this.__id);
-    }
+
 
     // Is this node the same as the other? 
     same(other) {
       return this.__id === other.__id;
     }
+
+    addChild(kid) {
+      this.children.push(kid);
+    }
   };
+
+
+
 
 })();

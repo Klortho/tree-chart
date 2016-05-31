@@ -8,6 +8,7 @@ const TreeChart = function() {
   class TreeChart {
 
     constructor(_opts=null, chartElem) {
+      TreeChart.charts.push(this);
       const C1 = TreeChart.config1;
 
       // Add a symbol to tinycolor, to tell C1 to treat it as atomic.
@@ -17,17 +18,23 @@ const TreeChart = function() {
       this.tree = null;
       this.chartElem = chartElem;
 
+
+      // Create the factory method for our nodes
+      this.newNode = TreeChart.Node.getFactory(opts);
+
+
       // Instantiate the renderer
       this.renderer = new opts.renderer.selected(this);
 
 
       // Retrieve the flextree layout engine
+
       this.flextree = d3.layout.flextree()
         .nodeSize(function(node) { 
           try {   // try-catch for debugging
             return [
-              100, //node.height() + nopts['margin-y'], 
-              30,  //node.width() + nopts['margin-x']
+              node.opts.width,
+              node.opts.height,
             ];
           }
           catch(err) {
@@ -85,7 +92,10 @@ const TreeChart = function() {
   // const C1 = require('config-one');
   TreeChart.config1 = config1;
 
+  // Keep a list of all charts
+  TreeChart.charts = [];
 
+  // To generate unique ids
   TreeChart._nextId = 1;
 
   return TreeChart;
