@@ -2,6 +2,12 @@ header.js
 
 ../node_modules/config-one/dist/config1.js
 
+d3-wrap-head.txt
+../node_modules/d3/d3.js
+d3-wrap-foot.txt
+
+../node_modules/d3-flextree/dist/d3-flextree.js
+
 ../src/main.js
 ../src/defaults.js
 
@@ -11,6 +17,10 @@ word-list-footer.txt
 ../src/words.js
 
 ../src/node.js
+
+../src/d3svg-node.js
+../src/d3svg.js
+
 
 ../node_modules/chai/chai.js
 assertions.js

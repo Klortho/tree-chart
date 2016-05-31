@@ -1,0 +1,7 @@
+//----------------------------------------------------------------
+// d3-wrap-head.txt - a wrapper to "require" d3.
+
+var d3 = (function() {
+  var module = {
+    exports: true,
+  };
