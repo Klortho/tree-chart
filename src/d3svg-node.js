@@ -3,6 +3,8 @@
 (function() {
   'use strict';
 
+  const C1 = config1;
+
   class D3svg_Node {
     constructor(d3svg) {
       this.d3svg = d3svg;  // our parent, the renderer instance
@@ -15,16 +17,29 @@
     }
 
     drawEnter(node) {
-      const nopts = this.options.node;
 
+      /* test: 
+      node['content-width'] = 100; */
+
+      // Nodes can have settings overrides! Before applying, get a frozen
+      // copy of just the node options
+      const defaults = C1.freeze(this.options.node);
+
+      // Copy just the option key/values from node into a new overrides object
+      const overrides = {};
+      Object.keys(defaults).forEach(k => {
+        if (k in node) overrides[k] = node[k];
+      });
+
+      const nopts = C1.extend(defaults, overrides);
+
+      // Add a <g> element container for this node.
       const nodeG = this.nodeG = this.d3svg.frame.append("g")
         .attr({
           'id': node.__id,
           'class': 'node',
           filter: 'url(#dropshadow)',
         });
-
-      // the rect
 
       /* testing
       node['content-width'] = 10;
@@ -36,15 +51,15 @@
       node['margin-bottom'] = 0;
       node['margin-left'] = 0; */
 
-      const contentWidth = nopts['content-width'](node);
-      const contentHeight = nopts['content-height'](node);
-      const padding = nopts.padding(node);
-      const border = nopts.border(node);
-      const marginTop = nopts['margin-top'](node);
-      const marginBottom = nopts['margin-bottom'](node);
-      const marginLeft = nopts['margin-left'](node);
-      const fill = nopts.fill(node);
-      const borderColor = nopts['border-color'](node);
+      const contentWidth = nopts['content-width'];
+      const contentHeight = nopts['content-height'];
+      const padding = nopts.padding;
+      const border = nopts.border;
+      const marginTop = nopts['margin-top'];
+      const marginBottom = nopts['margin-bottom'];
+      const marginLeft = nopts['margin-left'];
+      const fill = nopts.fill;
+      const borderColor = nopts['border-color'];
 
       const rectWidth = border + 2 * padding + contentWidth;
       const rectHeight = border + 2 * padding + contentHeight;

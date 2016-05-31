@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <script src='../node_modules/tinycolor2/tinycolor.js'></script>
+  </head>
+  <body>
+    <h1>color wheel</h1>
+    <script>
+      for (var i = 0; i < 360; ++i) {
+        var colorObj = {h: i, s: 0.43, l: 0.49};
+        var colorStr = tinycolor(colorObj).toString();
+        document.write(`<span style='color: ${colorStr}'>a</span>\n`);
+      }
+    </script>
+  </body>
+</html>

@@ -10,10 +10,10 @@
   // const C1 = require('config-one');
   const C1 = config1;
 
-  // This function returns a function of node, that returns property of the 
-  // node, or else a default value
-  const prop = (pname, def) =>
-    node => (pname in node) ? node[pname] : def;
+  // Some functions for manipulating colors. Colors are given in the config
+  // as an object specifying HSL values. The tinycolor2 library can manipulate
+  // these nicely.
+  const brighten = colorObj => tinycolor(colorObj).brighten(70).toString();
 
   TreeChart.defaults = {
 
@@ -59,14 +59,14 @@
       'content-height': C1(X=> d => 1.5 * X.chart['font-size']),
     */
 
-      'content-width': prop('content-width', 50),
-      'content-height': prop('content-height', 30),
-      padding: prop('padding', 4),
-      border: prop('border', 1.5),
-      'margin-top': prop('margin-top', 5),
-      'margin-right': prop('margin-right', 40),
-      'margin-bottom': prop('margin-bottom', 5),
-      'margin-left': prop('margin-left', 0),
+      'content-width': 50,
+      'content-height': 30,
+      padding: 4,
+      border: 1.5,
+      'margin-top': 5,
+      'margin-right': 40,
+      'margin-bottom': 5,
+      'margin-left': 0,
 
       // The following node settings are required by the API
 
@@ -99,9 +99,10 @@
         y: (X.node['margin-top'](d) - X.node['margin-bottom'](d)) / 2,
       })),
 
-      fill: prop('fill', 'red'),
 
-      'border-color': prop('border-color', 'blue'),
+      fill: 'red',
+
+      'border-color': 'blue',
     }
   };
 

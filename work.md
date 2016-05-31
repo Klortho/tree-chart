@@ -1,6 +1,10 @@
 To do:
 
-# Queue
+# Stack
+
+* Color computations
+
+
 
 * Plain boxes demo
 * Random words demo
@@ -17,13 +21,7 @@ To do:
 
 # Current work
 
-* Overall geometry
-    * (/) height/width
-    * (/)transformation: translate(0, height/2)
-* (/)Get this box where it belongs
-* (/)All these node-related functions:
-    * For Node implementation (no text): default is to grab the value off the
-      node itself.
+
 
 * Get color computer (tinycolor) back in.
 
