@@ -3,16 +3,13 @@
 // The settings here are very flexible. The default settings are designed to be
 // useful as-is. They define a horizontal tree display, where each node is a
 // rectangular box with a word in it.
+// Use instances of Microcolor to manipulate color values.
 
 (function() {
   'use strict';
 
   const C1 = TreeChart.config1;
 
-  // Some functions for manipulating colors. Colors are given in the config
-  // as an object specifying HSL values. The tinycolor2 library can manipulate
-  // these nicely.
-  const brighten = colorObj => tinycolor(colorObj).brighten(70).toString();
 
   TreeChart.defaults = {
 
@@ -106,13 +103,15 @@
       }),
 
 
-      // Border color forms the basis of our computed color scheme. Note that
-      // tinycolor objects are declared to config-one as atomic, so you can
+      // `color` forms the basis of our computed color scheme. Note that
+      // microcolor objects are declared to config-one as atomic, so you can
       // use them without worrying about them losing their prototypes.
-      'border-color': tinycolor({h: 90, s: 0.43, l: 0.49}),
+      color: {h: 90, s: 0.43, l: 0.49},
+
+      'border-color': C1(X=> new Microcolor(X.node.color)),
 
       // Make sure you use `clone()` with tinycolor!
-      fill: C1(X=> X.node['border-color'].clone().brighten(60)),
+      fill: C1(X=> new Microcolor(X.node['border-color']).brighten(60)),
     }
   };
 

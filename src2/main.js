@@ -16,9 +16,6 @@
 TreeChart = typeof TreeChart !== 'undefined' ? TreeChart : function() {
   'use strict';
 
-
-  // FIXME: Partition this well. The generic stuff in the defaults, and
-  // stuff related to config-one demo in overrides.
   var defaults = config1.extend(
     { duration: 800,
       color: color({h: 200, s: 0.43, l: 0.49}),

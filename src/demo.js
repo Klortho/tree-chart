@@ -16,8 +16,6 @@ const Demo = (function() {
       const chartElems = Array.from(
         document.querySelectorAll(opts.selector) || []);
 
-      console.log('chartElems: ', chartElems);
-
       // Instantiate new demos on those elements that don't already have one
       const newDemos = chartElems
         .filter(elem => !(Demo.binder in elem))
@@ -27,7 +25,8 @@ const Demo = (function() {
     }
 
 
-    // Constructor - don't use directly; use the start() factory 
+    // Constructor - one "demo" instance per chart.
+    // Don't use directly; use the start() factory 
     // method. The opts passed in here have already been extended from 
     // defaults.
     constructor(opts, chartElem) {
@@ -47,16 +46,23 @@ const Demo = (function() {
       // Create the chart
       const chart = this.chart = new TreeChart(null, chartElem);
 
+      //--------------------------------------------------
       // Instantiate a tree
       this.tree = chart.newNode();
 
-/*
-      const kid1 = new TreeChart.Node();
+      const kid1 = chart.newNode({
+        color: 'blue',
+        'content-height': 10,
+      });
+      const kid2 = chart.newNode({
+        color: 'red',
+        padding: 30,
+      });
+
       this.tree.addChild(kid1);
-*/
+      this.tree.addChild(kid2);
 
-
-
+      //--------------------------------------------------
 
 
       // Draw the tree
@@ -92,6 +98,28 @@ const Demo = (function() {
     toString() {
       return 'TreeChart demo #' + this.id;
     }
+
+    // pretty-print lots of info to the console. this is trigged by `s`
+    status() {
+
+      console.log(
+        `ticks: total ${this.tickTotalCount}, enabled ` +
+         `${this.tickEnabledCount}, rate ${this.speed}\n`
+      );
+
+      const printTree = function(node, indent) {
+        const istr = '  '.repeat(indent);
+        console.log(istr + 
+          'node ' + node.__id + 
+          ', x ' + node.x + 
+          ', y ' + node.y + 
+          ', width ' + node.opts.width +
+          ', height ' + node.opts.height
+        );
+        node.children.forEach(kid => printTree(kid, indent+1));
+      } 
+      printTree(this.tree, 0);
+    }
   };
 
   // This property is added to DOM elements to bind them to the Demo instance.
@@ -111,7 +139,7 @@ const Demo = (function() {
 
   Demo.defaults = {
     selector: '#chart',
-    verbose: true,
+    verbose: false,
     enabled: true,
     speed: 1,
     nextDelay: function() { 
@@ -126,11 +154,8 @@ const Demo = (function() {
       // `s` - log current state
       { type: 'keydown',
         filter: isKey(83),
-        listener: function() { 
-          console.log(
-            `ticks: total ${this.tickTotalCount}, enabled ` +
-             `${this.tickEnabledCount}, rate ${this.speed}\n`
-          ); 
+        listener: function() {
+          this.status();
         }
       },
 

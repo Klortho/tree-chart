@@ -22,6 +22,8 @@ To do:
 # Current work
 
 
+* In demo, have `s` pretty-print tree info.
+
 * Get some more boxes in. 
     * Hard-code them into the initial tree.
 

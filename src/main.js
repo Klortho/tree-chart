@@ -13,6 +13,7 @@ const TreeChart = function() {
 
       // Add a symbol to tinycolor, to tell C1 to treat it as atomic.
       tinycolor.prototype[C1.c1symbol] = { atomic: true };
+      Microcolor.prototype[C1.c1symbol] = { atomic: true };
 
       const opts = this.options = C1.extend(TreeChart.defaults, (_opts || {}));
       this.tree = null;
@@ -27,14 +28,16 @@ const TreeChart = function() {
       this.renderer = new opts.renderer.selected(this);
 
 
-      // Retrieve the flextree layout engine
+
+      // Retrieve the flextree layout engine, and set some callbacks.
+      // Note how x/y (width/height) is reversed in flextree.
 
       this.flextree = d3.layout.flextree()
         .nodeSize(function(node) { 
           try {   // try-catch for debugging
             return [
-              node.opts.width,
               node.opts.height,
+              node.opts.width,
             ];
           }
           catch(err) {
@@ -61,7 +64,6 @@ const TreeChart = function() {
 
       // FIXME: for now, just assuming that this is the first time:
       this.tree = newTree;
-      console.log('tree: ', newTree);
 
       // prolly going to have to save the old x and y
 
@@ -69,8 +71,12 @@ const TreeChart = function() {
       const nodes = this.nodes = this.flextree.nodes(this.tree);
       this.links = this.flextree.links(nodes);
 
-      // swap x and y
+      // Fix up:
+      // - flextree removes empty `children` arrays for some reason. Let's put
+      //   them back
+      // - swap x and y
       nodes.forEach(n => {
+        if (!('children' in n)) n.children = [];
         const x = n.x;
         n.x = n.y;
         n.y = x;
