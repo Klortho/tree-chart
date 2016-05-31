@@ -18,6 +18,15 @@ Current work
 
 It is time to start seeing pretty boxes.
 
-* demo needs to instantiate a TreeChart
-* and initialize a tree (no text)
+* (/)demo needs to instantiate a TreeChart
+* (/)and initialize a tree (no text)
+
+* Get the chart to draw the tree.
+    * TreeChart has to do it's initialization voodoo.
+    
+    * Let's try not wrapping the Node objects. If need be, attach metadata
+      using a Symbol.
+
+
+
 * ticker should then morph the tree

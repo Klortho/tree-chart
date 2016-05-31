@@ -19,14 +19,17 @@
     <div id='state' style='float: right'></div>
     <h1>tree-chart demo</h1>
 
-    <!-- Here are two charts -->
+    <!-- Here are three charts -->
     <div class='tree-demo' id='chart1'></div>
+    <!-- for now, just one
     <div class='tree-demo' id='chart2'></div>
-    <div class='tree-demo' id='chart3'></div>
+    <div class='tree-demo' id='chart3'></div> -->
 
     <script src='node_modules/config-one/dist/config1.js'></script>
+    <script src='node_modules/d3/d3.js'></script>
 
-    <script src='src/main.js'></script>
+    <script src='src/main.js'></script>    
+    <script src='src/node.js'></script>
     <script src='src/demo.js'></script>
     <script>
       const demos = Demo.start({selector: '.tree-demo'});

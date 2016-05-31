@@ -4,10 +4,6 @@
 const {test, report} = tester({ debug: true, haltOnError: false });
 
 
-//---------------------------------------------------
-// WordNode class
-
-
 
 
 

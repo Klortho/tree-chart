@@ -1,10 +1,11 @@
 //----------------------------------------------------------------
-// module.js  [Use this as a template for new modules.]
+// [Use this as a template for new TreeChart plugins.]
+// plugin.js
 
 (function() {
   'use strict';
 
-  const Module = TreeChart.Module = class {
+  TreeChart.Plugin = class Plugin {
     static get prop1() {
       return '...';
     }
