@@ -3,7 +3,6 @@
 (function() {
   'use strict';
 
-
   // Functions for generating the diagonals. These are the lines between the 
   // boxes.
   // See https://github.com/mbostock/d3/wiki/SVG-Shapes#diagonal.
@@ -85,25 +84,20 @@
       this.d3svg = d3svg;
       this.options = d3svg.options;
       this.frame = d3svg.frame;
-      this.lastTreeData = d3svg.chart.lastTreeData;
     }
 
     draw(links) {
-      console.log('draw(links)');
       const opts = this.options;
 
-      //const _try = this.startDiag(links[0]);
-
-      const links_selection = this.frame.selectAll("path.link")
+      const update = this.frame.selectAll("path.link")
         .data(links, function(d) { return d.target.__id; });
 
-
-      const linksEnter = links_selection.enter()
+      const linksEnter = update.enter()
       .insert("path", "g")
         .attr({
           id: d => d.target.__id,
           'class': 'link',
-          d: enterDiagPath(this.lastTreeData),
+          d: enterDiagPath(this.d3svg.chart.lastTreeData),
         })
         .style({
           fill: 'none',
@@ -111,55 +105,23 @@
           'stroke-width': opts.links['stroke-width'] + 'pt',
         });
 
-      console.log('duration: ', opts.duration);
       linksEnter.transition()
         .duration(opts.duration)
         .attr('d', diagonalPath);
 
 
-/*
-      // Function to make a diagonal function for entering and exiting 
-      // transitions of the links
-      const zeroDiag = function(d) {
-        const parent = d.target.parent,
-              x = parent && ('x' in parent) ? parent.x : 0,
-              y = parent && ('y' in parent) ? parent.y : 0,
-              dummyNode = { x: x, y: y, width: () => 0, };
-        return diagonal({
-          source: dummyNode, 
-          target: dummyNode
-        });
-      };
-
-      links_selection.enter().insert("path", "g")
-        .attr({
-          id: d => d.target.id,
-          'class': 'link',
-          d: zeroDiag,
-        });
-
-      links_selection.transition()
+      update.transition()
         .duration(opts.duration)
-        .attr('d', diagonal);
-
-      const cb = d => {
-        console.log('cb, d: ', d);
-      };
+        .attr('d', diagonalPath);
 
       // Transition exiting links to the parent's new positions.
-      links_selection.exit().transition()
+      update.exit().transition()
         .duration(opts.duration)
-        .attr('d', zeroDiag)
-        .each('end', cb)
+        .attr('d', enterDiagPath(this.d3svg.chart.lastTreeData))
         .remove();
-*/
+
     }
-
-
-
-
   }
-
 
   TreeChart.D3svg_Link = D3svg_Link;
 })();

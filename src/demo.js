@@ -46,39 +46,8 @@ const Demo = (function() {
       // Create the chart
       const chart = this.chart = new TreeChart(null, chartElem);
 
-      //--------------------------------------------------
-      // Instantiate a tree
-      const root = this.tree = chart.newNode();
+      this.tree = null;
 
-      const k0 = chart.newNode({
-        color: 'blue',
-        'content-height': 10,
-      });
-      const k1 = chart.newNode({
-        color: 'red',
-        padding: 30,
-      });
-      const k2 = chart.newNode({
-        color: 'violet',
-        'content-width': 20,
-        'margin-right': 20,
-      });
-      const k20 = chart.newNode({
-        color: 'orange',
-        'content-width': 20,
-        'margin-right': 20,
-      });
-
-      root.addChild(k0);
-      root.addChild(k1);
-      root.addChild(k2);
-      k2.addChild(k20);
-
-      //--------------------------------------------------
-
-
-      // Draw the tree
-      this.chart.draw(this.tree);
 
       // Set event listeners
       const self = this;
@@ -105,6 +74,7 @@ const Demo = (function() {
     tick() {
       this.tickEnabledCount++;
       if (this.verbose) { console.log(this + ': tick'); }
+      this.addNode();
     }
 
     toString() {
@@ -132,6 +102,40 @@ const Demo = (function() {
       } 
       printTree(this.tree, 0);
     }
+
+    randomNode() {
+      const chart = this.chart;
+      return chart.newNode({
+        'content-height': 10 + Math.floor(Math.random() * 50),
+        'content-width': 10 + Math.floor(Math.random() * 50),
+        color: new Microcolor(tinycolor.random()),
+      });
+    }
+
+    // Add a random node to the tree
+    addNode() {
+      const n = this.randomNode();
+      if (!this.tree) {
+        this.tree = n;
+      }
+      else {
+        const nodes = this.chart.nodes
+        const p = Math.floor(Math.random() * nodes.length);
+        nodes[p].addChild(n);
+      }
+      this.chart.draw(this.tree);        
+    }
+
+    // Delete a random node
+    deleteNode() {
+      const nodes = this.chart.nodes;
+      if (nodes.length == 1) return;
+      const x = Math.floor(Math.random() * (nodes.length - 1)) + 1;
+      const nx = nodes[x];
+      nx.parent.deleteChild(nx);
+      chart.draw(this.tree);
+    }
+
   };
 
   // This property is added to DOM elements to bind them to the Demo instance.
@@ -153,7 +157,7 @@ const Demo = (function() {
     selector: '#chart',
     verbose: false,
     enabled: true,
-    speed: 1,
+    speed: 0.5,
     nextDelay: function() { 
       return -1000 * Math.log(Math.random()) / this.speed; 
     },
@@ -175,6 +179,18 @@ const Demo = (function() {
       { type: 'keydown',
         filter: isKey(86),
         listener: function() { this.verbose = !this.verbose; }
+      },
+
+      // `a` - add a node
+      { type: 'keydown',
+        filter: isKey(65),
+        listener: function() { this.addNode(); }
+      },
+
+      // `x` - delete a node at random (and its descendants)
+      { type: 'keydown',
+        filter: isKey(88),
+        listener: function() { this.deleteNode(); }
       },
 
       // escape - suspend dynamic updates

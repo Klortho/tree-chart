@@ -10,9 +10,8 @@
 
   const C1 = TreeChart.config1;
 
-
   TreeChart.defaults = {
-    duration: 800,
+    duration: 400,
 
     renderer: {
       // Note that this one has to be in a recipe, because .D3svg hasn't been
@@ -31,7 +30,7 @@
       'font-family': 'courier',
       'text-anchor': 'start',
       'alignment-baseline': 'middle',
-      'spacing': (a, b) => a.parent === b.parent ? 0 : 30,
+      'spacing': (a, b) => a.parent === b.parent ? 0 : 20,
     },
 
     // The node settings are designed to be flexible enough that you can
@@ -104,7 +103,6 @@
           y: (n['margin-top'] - n['margin-bottom']) / 2,
         };
       }),
-
 
       // `color` forms the basis of our computed color scheme. Note that
       // microcolor objects are declared to config-one as atomic, so you can

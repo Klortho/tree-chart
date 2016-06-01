@@ -11,7 +11,9 @@
   const Node = TreeChart.Node = class {
 
     // Constructor - private. Use a factory instead.
-    constructor() {}
+    constructor() {
+      this.parent = null;
+    }
 
     // Get a Node factory for your chart, using your config settings as the
     // defaults for every new Node. Both arguments are optional.
@@ -54,6 +56,15 @@
 
     addChild(kid) {
       this.children.push(kid);
+      kid.parent = this;
+    }
+
+    deleteChild(kid) {
+      const newKids = [];
+      this.children.forEach(sib => {
+        if (sib !== kid && sib.__id !== kid.__id) newKids.push(sib);
+      });
+      this.children = newKids;
     }
 
     getParent() {
@@ -63,8 +74,4 @@
         return null;
     }
   };
-
-
-
-
 })();

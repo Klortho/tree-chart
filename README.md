@@ -1,66 +1,25 @@
 # tree-chart
 
-Right now this is in the middle of yet another major refactoring. 
+This is intended to be a very easy-to-use version of d3-flextree, as well as
+a demonstration of some of the features of 
+[config-one](https://github.com/klortho/config-one).
 
-Develop:
+
+
+## Develop
 
 ```
 npm install
 ```
 
-Test:
+Then bring up index.html in your browser to see the demo.
+
+
+To test (currently not passing):
 
 ```
 npm test
 ```
 
-Then bring up index.html in your browser to see the demo (currently broken).
 
-
-
-
-## To do
-
-* Integrate this [pan-zoom library](https://github.com/ariutta/svg-pan-zoom)
-* Add other renderers; for example, a simple HTML/CSS renderer that uses boxes
-  and absolute positions. (Straight-line diagonals could even be drawn with
-  one border of a div that's rotated).
-* Define a base `Node` class, from which `TextNode` inherits. What are the
-  essential methods? At least constructor, copy.
-
-
-## ES6 tricks
-
-* Use `Array.from()` to convert DOM Node lists into arrays.
-
-* Note also that they are iterable:
-
-    ```
-     for (let node of document.querySelectorAll('···')) {
-        ···
-    }
-    ```
-    
-## State of this software
-
-I ventured to learn and implement a lot of new tools at once, and ran into 
-problems. So I backed off, and now, the files that make up this library are:
-
-* Not in any standard module format. They each add one property to a global
-  `TreeChart` object.
-* Use some ES6 features, but I'm not even using Babel at the moment. So, I'm
-  limiting myself to what works in Node.js version 6 and Chrome 50.0 (which
-  seems like quite a lot).
-* Custom test "framework" -- I just concatenate all the files, and run them,
-  once in Node.js, and once in the browser by manually reloading 
-  test/index.html. (See [test/README.md](test/README.md)).
-
-The pattern I'm using for each module is:
-
-```
-(function() {
-  'use strict';
-  TreeChart.ModuleName = '...';
-})();
-```
-
+See also [dev.md](dev.md) for some notes.

@@ -6,9 +6,9 @@
   class D3svg_Node {
     constructor(d3svg) {
       this.d3svg = d3svg;  // our parent, the renderer instance
+      this.chart = d3svg.chart;
       this.options = d3svg.options;
       this.frame = d3svg.frame;
-      this.lastTreeData = d3svg.chart.lastTreeData;
 
       // Add the defs that we need for the node. Note that this
       // produces a nested <defs>, but that's okay, and prevents
@@ -17,20 +17,64 @@
     }
 
     draw(nodes) {
-      console.log('draw(nodes)');
-      const selection = this.frame.selectAll('g.node')
-        .data(nodes, node => node.__id);
-      selection.enter()[0].forEach(item => this.drawEnter(item));
+      const self = this;
+      const opts = this.options;
+      const chart = this.chart;
+
+      const update = this.frame.selectAll('g.node')
+        .data(nodes, function(node) {
+          // Call with this == the <g> node sometimes and `node` == our data
+          // sometimes
+          return this.id || node.__id || null;
+        });
+
+      update.enter()[0].forEach(function(item) {
+        self.enterNode(item.__data__);
+      });
+
+      // Move the elements to their locations according to the layout
+      update.each(function(node) {
+        self.updateNode(this, node);
+      });
+
+      // Transition exiting links to the parent's new positions.
+      update.exit().transition()
+        .duration(opts.duration)
+        .attr('transform', function(node) {
+          const xid = node ? node.__id : this.id;
+          const targetId = chart.firstRemainingAncestorId(xid);
+          const tpos = chart.absAnchorOut(targetId);
+          return `translate(${tpos.x}, ${tpos.y}) scale(0, 1)`;
+        })
+        .remove();
     }
 
 
-    drawEnter(selItem) {
+    updateNode(elem, node) {
       const opts = this.options;
-      const node = selItem.__data__;
+      d3.select(elem).transition().duration(opts.duration)
+      .attr({
+          'transform': `translate(${node.x}, ${node.y})`,
+      });
+    }
+
+    enterNode(node) {
+      const opts = this.options;
       const nopts = node.opts;
+      const lastTreeData = this.d3svg.chart.lastTreeData;
 
       // for now: transition in from (0,0)
-      const x = 0; const y = 0;
+      var x = 0; 
+      var y = 0;
+
+      const parent = node.parent || null;
+      if (parent && lastTreeData) {
+        const last = lastTreeData[parent.__id];
+        if (last) {
+          x = last.position.x + last.anchorOut.x;
+          y = last.position.y + last.anchorOut.y;
+        }
+      }
 
       // Add a <g> element container for this node.
       const nodeG = this.nodeG = this.d3svg.frame.append("g")
@@ -53,7 +97,7 @@
 
       nodeG.append("rect")
         .attr({
-          'data-id': node.id,
+          'data-id': node.__id,
           width: rectWidth,
           height: rectHeight,
           x: rectX,
@@ -89,8 +133,6 @@
           <feMergeNode in='SourceGraphic'/>
         </feMerge>
       </filter>`;
-
-
 
   TreeChart.D3svg_Node = D3svg_Node;
 })();
