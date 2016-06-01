@@ -29,6 +29,7 @@
       'font-family': 'courier',
       'text-anchor': 'start',
       'alignment-baseline': 'middle',
+      'spacing': (a, b) => a.parent === b.parent ? 0 : 30,
     },
 
     // The node settings are designed to be flexible enough that you can

@@ -48,19 +48,31 @@ const Demo = (function() {
 
       //--------------------------------------------------
       // Instantiate a tree
-      this.tree = chart.newNode();
+      const root = this.tree = chart.newNode();
 
-      const kid1 = chart.newNode({
+      const k0 = chart.newNode({
         color: 'blue',
         'content-height': 10,
       });
-      const kid2 = chart.newNode({
+      const k1 = chart.newNode({
         color: 'red',
         padding: 30,
       });
+      const k2 = chart.newNode({
+        color: 'violet',
+        'content-width': 20,
+        'margin-right': 20,
+      });
+      const k20 = chart.newNode({
+        color: 'orange',
+        'content-width': 20,
+        'margin-right': 20,
+      });
 
-      this.tree.addChild(kid1);
-      this.tree.addChild(kid2);
+      root.addChild(k0);
+      root.addChild(k1);
+      root.addChild(k2);
+      k2.addChild(k20);
 
       //--------------------------------------------------
 

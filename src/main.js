@@ -45,10 +45,7 @@ const TreeChart = function() {
             return [50, 100];
           }
         })
-        .spacing(function(a, b) {
-          return 10;
-          //return a.elem_parent === b.elem_parent ? 10 : 20;
-        });
+        .spacing(opts.chart.spacing);
     }
 
     // This method is shared by lots of modules and plugins, for convenience
