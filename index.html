@@ -25,10 +25,10 @@
     <div class='tree-demo' id='boxes'></div>
     <div class='tree-demo' id='words'></div>
 
-    <script src='node_modules/config-one/dist/config1.js'></script>
-    <script src='node_modules/d3/d3.js'></script>
-    <script src='node_modules/d3-flextree/dist/d3-flextree.js'></script>
-    <script src='node_modules/tinycolor2/tinycolor.js'></script>
+    <script src='vendor/config1.js'></script>
+    <script src='vendor/d3.js'></script>
+    <script src='vendor/d3-flextree.js'></script>
+    <script src='vendor/tinycolor.js'></script>
     <script src='src/microcolor.js'></script>
     <script src='src/main.js'></script>
     <script src='src/defaults.js'></script>    
@@ -50,7 +50,7 @@
         speed: 2,
       }));
 
-      TreeChart.Words.fromFetch('node_modules/word-list-json/words.json')
+      TreeChart.Words.fromFetch('vendor/words.json')
       .then(words => {
         demos.push.apply(demos, DemoWords.start({
           pickWord: words.pick,
