@@ -2,24 +2,24 @@
 // random events with an average frequency of `speed` Hz.
 // The timer is always going; when the looping is disabled, we just ignore it.
 
-const Demo = (function() {
+const DemoWords = (function() {
   'use strict';
 
   const C1 = TreeChart.config1;
 
-  class Demo {
+  class DemoWords {
 
     // Instantiate a set of new Demos from a query selector. Makes one Demo
     // instance per matched element.
     static start(_opts=null) {
-      const opts = C1.extend(Demo.defaults, (_opts || {}));
+      const opts = C1.extend(DemoBoxes.defaults, DemoWords.defaults, (_opts || {}));
       const chartElems = Array.from(
         document.querySelectorAll(opts.selector) || []);
 
       // Instantiate new demos on those elements that don't already have one
       const newDemos = chartElems
-        .filter(elem => !(Demo.binder in elem))
-        .map(elem => new Demo(opts, elem));
+        .filter(elem => !(DemoWords.binder in elem))
+        .map(elem => new DemoWords(opts, elem));
 
       return newDemos;
     }
@@ -30,18 +30,19 @@ const Demo = (function() {
     // method. The opts passed in here have already been extended from 
     // defaults.
     constructor(opts, chartElem) {
+      console.log('constructor: opts.words: ', opts.words);
       // Give this a unique id
       this.id = TreeChart.nextId;
 
       // Keep a list of all the demos
-      Demo.list.push(this);
+      DemoWords.list.push(this);
 
       // Assign the options to this instance itself
       Object.assign(this, opts);
 
       // double bind
       this.chartElem = chartElem;
-      chartElem[Demo.binder] = this;
+      chartElem[DemoWords.binder] = this;
 
       // Create the chart
       const chart = this.chart = new TreeChart(null, chartElem);
@@ -71,16 +72,12 @@ const Demo = (function() {
       };
     }
 
+
     tick() {
       this.tickEnabledCount++;
       if (this.verbose) { console.log(this + ': tick'); }
-      const oddsToRemove = this.numNodes()/10 - 0.5;
-      if (Math.random() < oddsToRemove) {
-        this.deleteNode();
-      }
-      else {
-        this.addNode();
-      }
+      this.removeBox(this) ? this.deleteNode() : this.addNode();
+      console.log(this.pickWord());
     }
 
     numNodes() {
@@ -148,10 +145,10 @@ const Demo = (function() {
 
   };
 
-  // This property is added to DOM elements to bind them to the Demo instance.
-  Demo.binder = Symbol('tree-chart-demo');
+  // This property is added to DOM elements to bind them to the DemoWords instance.
+  DemoWords.binder = Symbol('tree-chart-demo');
 
-  Demo.list = [];
+  DemoWords.list = [];
 
   // Get the key code of a keydown event
   const keyCode = evt => evt.keyCode || evt.which;
@@ -163,71 +160,13 @@ const Demo = (function() {
   // instance. All of the functions here get bound to the instance when it
   // is constructed. 
 
-  Demo.defaults = {
-    selector: '#chart',
-    verbose: false,
-    enabled: true,
-    speed: 0.8,
-    nextDelay: function() { 
-      return -1000 * Math.log(Math.random()) / this.speed; 
+  DemoWords.defaults = {
+    treeChart: {
+      chart: {
+        spacing: 0
+      }
     },
-    listeners: [
-      //// for checking key codes:
-      //{ type: 'keydown',
-      //  filter: () => true,
-      //  listener: evt => console.log('got evt: ', evt, ', key code: ', keyCode(evt)) },
-
-      // `s` - log current state
-      { type: 'keydown',
-        filter: isKey(83),
-        listener: function() {
-          this.status();
-        }
-      },
-
-      // `v` - toggle verbose
-      { type: 'keydown',
-        filter: isKey(86),
-        listener: function() { this.verbose = !this.verbose; }
-      },
-
-      // `a` - add a node
-      { type: 'keydown',
-        filter: isKey(65),
-        listener: function() { this.addNode(); }
-      },
-
-      // `x` - delete a node at random (and its descendants)
-      { type: 'keydown',
-        filter: isKey(88),
-        listener: function() { this.deleteNode(); }
-      },
-
-      // escape - suspend dynamic updates
-      { type: 'keydown',
-        filter: isKey(27),  // escape
-        listener: function() { this.enabled = false; },
-      },
-
-      // space - restart dynamic updates
-      { type: 'keydown',
-        filter: isKey(32),  // space
-        listener: function() { this.enabled = true; },
-      },
-
-      // `-` - slow down
-      { type: 'keydown',
-        filter: isKey(189),  // `-`
-        listener: function() { this.speed *= 1.1; },
-      },
-
-      // `=` / `+` = speed up
-      { type: 'keydown',
-        filter: isKey(187),  // `=`
-        listener: function() { this.speed /= 1.1; },
-      },
-    ],
   };
 
-  return Demo;
+  return DemoWords;
 })();
