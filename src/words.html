@@ -42,7 +42,7 @@
     <script src='../src/defaults.js'></script>    
     <script src='../src/node.js'></script>
     <script src='../src/d3svg.js'></script>
-    <script src='../src/d3svg-node.js'></script>
+    <script src='../src/d3svg-wordnode.js'></script>
     <script src='../src/d3svg-link.js'></script>
 
     <script src='../src/words.js'></script>
@@ -53,9 +53,7 @@
     <script>
       TreeChart.Words.fromFetch('../node_modules/word-list-json/words.json')
       .then(words => {
-        console.log('words.pick: ', words.pick());
-
-
+        //console.log('words.pick: ', words.pick());
 
         const demos = DemoWords.start({
           pickWord: words.pick,

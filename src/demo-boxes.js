@@ -71,9 +71,14 @@ const DemoBoxes = (function() {
     }
 
     tick() {
-      this.tickEnabledCount++;
       if (this.verbose) { console.log(this + ': tick'); }
-      this.removeBox(this) ? this.deleteNode() : this.addNode();
+      if (!this.tickEnabledCount++) {
+        var num = this.nodesToStart();
+        while (num--) this.addNode();
+      }
+      else {
+        this.removeBox(this) ? this.deleteNode() : this.addNode();      
+      }
     }
 
     numNodes() {
@@ -161,6 +166,7 @@ const DemoBoxes = (function() {
     verbose: false,
     enabled: true,
     speed: 0.8,
+    nodesToStart: () => Math.floor(Math.random() * 8) + 5,
     nextDelay: function() { 
       return -1000 * Math.log(Math.random()) / this.speed; 
     },

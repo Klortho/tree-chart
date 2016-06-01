@@ -30,7 +30,6 @@ const DemoWords = (function() {
     // method. The opts passed in here have already been extended from 
     // defaults.
     constructor(opts, chartElem) {
-      console.log('constructor: opts.words: ', opts.words);
       // Give this a unique id
       this.id = TreeChart.nextId;
 
@@ -45,7 +44,8 @@ const DemoWords = (function() {
       chartElem[DemoWords.binder] = this;
 
       // Create the chart
-      const chart = this.chart = new TreeChart(null, chartElem);
+      const chart = this.chart = new TreeChart(opts.treeChart, chartElem);
+
 
       this.tree = null;
 
@@ -72,12 +72,15 @@ const DemoWords = (function() {
       };
     }
 
-
     tick() {
-      this.tickEnabledCount++;
       if (this.verbose) { console.log(this + ': tick'); }
-      this.removeBox(this) ? this.deleteNode() : this.addNode();
-      console.log(this.pickWord());
+      if (!this.tickEnabledCount++) {
+        var num = this.nodesToStart();
+        while (num--) this.addNode();
+      }
+      else {
+        this.removeBox(this) ? this.deleteNode() : this.addNode();      
+      }
     }
 
     numNodes() {
@@ -111,10 +114,14 @@ const DemoWords = (function() {
 
     randomNode() {
       const chart = this.chart;
+      
+      const word = this.pickWord();
+      const bbox = chart.renderer.nodeRenderer.getTextMetrics(word);
+
       return chart.newNode({
-        'content-height': 10 + Math.floor(Math.random() * 50),
-        'content-width': 10 + Math.floor(Math.random() * 50),
-        color: new Microcolor(tinycolor.random()),
+        word: word,
+        'content-width': bbox.width,
+        'content-height': bbox.height,
       });
     }
 
@@ -162,8 +169,16 @@ const DemoWords = (function() {
 
   DemoWords.defaults = {
     treeChart: {
+      renderer: {
+        nodeRenderer: C1(X=> TreeChart.D3svg_WordNode),
+      },
       chart: {
-        spacing: 0
+        spacing: () => 0,
+        'font-size': 16,
+      },
+      node: {
+        border: 1.5,
+        color: new Microcolor({h: 200, s: 0.43, l: 0.49}),
       }
     },
   };

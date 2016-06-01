@@ -19,13 +19,24 @@
       selected: C1(X=> TreeChart.D3svg),
       nodeRenderer: C1(X=> TreeChart.D3svg_Node),
       linkRenderer: C1(X=> TreeChart.D3svg_Link),
+      flextree: {
+        nodeSize: function(node) {
+          try {
+            return [ node.opts.height, node.opts.width ];
+          }
+          catch(err) {
+            console.error(err);
+            return [50, 100];
+          }
+        }
+      }
     },
 
     // settings that apply to the drawing as a whole
     chart: {
       orientation: 'horizontal',
-      width: 800,
-      height: 400,
+      width: 1000,
+      height: 600,
       'font-size': 12,
       'font-family': 'courier',
       'text-anchor': 'start',
@@ -45,18 +56,8 @@
 
     node: {
 
-    /* taking text-related stuff out for now
-      // These calculations of the width and height use estimates based on 
-      // the fixed-width courier-new font. The d3svg renderer uses the actual
-      // bounding box. Note that these are recipes that return functions
-      // that are called on each data item at layout time.
-      'content-width': C1(X=> 
-        d => 86.4 * d.text.length / X.chart['font-size']),
-      'content-height': C1(X=> d => 1.5 * X.chart['font-size']),
-      'content-width': C1(X=> 
-        d => 86.4 * d.text.length / X.chart['font-size']),
-      'content-height': C1(X=> d => 1.5 * X.chart['font-size']),
-    */
+      // SEE ALSO: some of these are overridden by text-defaults, if you want
+      // to use those.
 
       'content-width': 50,
       'content-height': 30,
@@ -111,8 +112,9 @@
 
       'border-color': C1(X=> new Microcolor(X.node.color)),
 
-      // Make sure you use `clone()` with tinycolor!
       fill: C1(X=> new Microcolor(X.node['border-color']).brighten(60)),
+
+      'text-color': C1(X=> X.node.color),
     },
 
     links: {
@@ -120,5 +122,6 @@
       'stroke-width': 1.5,
     },
   };
+
 
 })();

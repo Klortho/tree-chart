@@ -32,18 +32,7 @@ const TreeChart = function() {
       // Note how x/y (width/height) is reversed in flextree.
 
       this.flextree = d3.layout.flextree()
-        .nodeSize(function(node) { 
-          try {   // try-catch for debugging
-            return [
-              node.opts.height,
-              node.opts.width,
-            ];
-          }
-          catch(err) {
-            console.error(err);
-            return [50, 100];
-          }
-        })
+        .nodeSize(opts.renderer.flextree.nodeSize)
         .spacing(opts.chart.spacing);
     }
 
