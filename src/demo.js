@@ -74,16 +74,25 @@ const Demo = (function() {
     tick() {
       this.tickEnabledCount++;
       if (this.verbose) { console.log(this + ': tick'); }
-      this.addNode();
+      const oddsToRemove = this.numNodes()/10 - 0.5;
+      if (Math.random() < oddsToRemove) {
+        this.deleteNode();
+      }
+      else {
+        this.addNode();
+      }
     }
 
+    numNodes() {
+      const n = (this.chart && this.chart.nodes) ? this.chart.nodes.length : 0;
+      return n;
+    }
     toString() {
       return 'TreeChart demo #' + this.id;
     }
 
     // pretty-print lots of info to the console. this is trigged by `s`
     status() {
-
       console.log(
         `ticks: total ${this.tickTotalCount}, enabled ` +
          `${this.tickEnabledCount}, rate ${this.speed}\n`
@@ -128,6 +137,7 @@ const Demo = (function() {
 
     // Delete a random node
     deleteNode() {
+      if (!this.chart || !this.chart.nodes) return;
       const nodes = this.chart.nodes;
       if (nodes.length == 1) return;
       const x = Math.floor(Math.random() * (nodes.length - 1)) + 1;
@@ -157,7 +167,7 @@ const Demo = (function() {
     selector: '#chart',
     verbose: false,
     enabled: true,
-    speed: 0.5,
+    speed: 0.8,
     nextDelay: function() { 
       return -1000 * Math.log(Math.random()) / this.speed; 
     },
