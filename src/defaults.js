@@ -97,7 +97,7 @@
       'anchor-out': C1(X=> { 
         const n = X.node;
         return {
-          x: n.width - n['margin-left'],
+          x: n.width - n['margin-right'],
           y: (n['margin-top'] - n['margin-bottom']) / 2,
         };
       }),
@@ -112,7 +112,12 @@
 
       // Make sure you use `clone()` with tinycolor!
       fill: C1(X=> new Microcolor(X.node['border-color']).brighten(60)),
-    }
+    },
+
+    links: {
+      color: '#888',
+      'stroke-width': 1.5,
+    },
   };
 
 })();

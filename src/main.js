@@ -89,7 +89,7 @@ const TreeChart = function() {
         renderer.drawEnter(node);
       });
 
-      links.forEach(link => renderer.drawLink(link));
+      renderer.drawLinks(links);
     }
   };
 

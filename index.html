@@ -50,6 +50,17 @@
     <script>
       const demos = Demo.start({selector: '.tree-demo'});
       //console.log('started ' + demos.length + ' new charts');
+
+      // Put some stuff into global for debugging
+      demo = Demo.list[0];
+      chart = demo.chart;
+      tree = chart.tree;
+
+      nodes = chart.nodes;
+      links = chart.links;
+
+
+
     </script>
 
   </body>

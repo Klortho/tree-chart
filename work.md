@@ -22,22 +22,14 @@ To do:
 # Current work
 
 
-* In demo, have `s` pretty-print tree info.
-
-* Get some more boxes in. 
-    * Hard-code them into the initial tree.
-
-* node options overrides is very interesting:
-    * Every chart can have different opts
-    * The chart's opts act as the defaults for the Node class
-    * So, we need to dynamically generate a factory method
-
-
-
-
-
 * Then get diagonals working
+* do spacing
 
+* Animations - updating the tree
+* Text nodes
+* Words demo
+* New tree type for modeling JS objects.
+* Presentation material
 
 
 
@@ -73,11 +65,14 @@ Renderers
 ## Data binding
 
 * Every `Node` object has an __id.
-* The master SVG `<g>` element for  a Node has a matching @id attribute.
+* The master SVG `<g>` element for a Node has a matching @id attribute.
 * Child elements of that `<g>` each also have a @data-id attribute with the
   same value
 
 
+* links are identified by their *targets*, since every link has only one
+  target.
+* They have a <path> element (no containing <g>) with @id = 'link-#' and class 'link'
 
 
 

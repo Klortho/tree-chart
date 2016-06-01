@@ -123,9 +123,6 @@ TreeChart = typeof TreeChart !== 'undefined' ? TreeChart : function() {
         stylesheet.insertRule(rule, 0);
       });
     }
-
-
-
   };
 
 
