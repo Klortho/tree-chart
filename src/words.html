@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>tree-chart words</title>
+    <meta charset="utf-8">
+    <style>
+      body {margin: 0; padding: 1em;}
+      .tree-demo {
+        padding: 1em;
+        border-radius: 0.5em;
+        border: 1px solid #777;
+        background: #EEE;
+        overflow: hidden;
+        margin: 1em 0;
+      }
+      svg {
+        /*border: 1px solid blue;*/
+      }
+    </style>
+  </head>
+  <body>
+    <div id='state' style='float: right'></div>
+    <h1>tree-chart demo - words</h1>
+
+    <!-- Just one chart for now -->
+    <div class='tree-demo' id='chart1'></div>
+    <!-- <div class='tree-demo' id='chart2'></div> -->
+
+    <!-- config-one -->
+    <!-- development version:
+    <script src='../config-one/dist/config1.js'></script> -->
+    <!-- released version: -->
+    <script src='../node_modules/config-one/dist/config1.js'></script>
+
+
+    <script src='../node_modules/d3/d3.js'></script>
+    <script src='../node_modules/d3-flextree/dist/d3-flextree.js'></script>
+    <script src='../node_modules/tinycolor2/tinycolor.js'></script>
+    <script src='../src/microcolor.js'></script>
+
+    <script src='../src/main.js'></script>
+    <script src='../src/defaults.js'></script>    
+    <script src='../src/node.js'></script>
+    <script src='../src/demo.js'></script>
+    <script src='../src/d3svg.js'></script>
+    <script src='../src/d3svg-node.js'></script>
+    <script src='../src/d3svg-link.js'></script>
+
+    <script>
+      const demos = Demo.start({selector: '.tree-demo'});
+      //console.log('started ' + demos.length + ' new charts');
+
+      // Put some stuff into global for debugging
+      demo = Demo.list[0];
+      chart = demo.chart;
+      tree = chart.tree;
+      nodes = chart.nodes;
+      links = chart.links;
+    </script>
+
+  </body>
+</html>
