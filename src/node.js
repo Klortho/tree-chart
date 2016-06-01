@@ -47,8 +47,6 @@
       return factory;
     }
 
-
-
     // Is this node the same as the other? 
     same(other) {
       return this.__id === other.__id;
@@ -56,6 +54,13 @@
 
     addChild(kid) {
       this.children.push(kid);
+    }
+
+    getParent() {
+      if (('parent' in this) && this.parent && (this.parent instanceof Node))
+        return this.parent;
+      else 
+        return null;
     }
   };
 

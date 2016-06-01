@@ -140,25 +140,6 @@ TreeChart = typeof TreeChart !== 'undefined' ? TreeChart : function() {
     const chart = this;
     const opts = chart.opts;
 
-
-    // Wrap the original data nodes in Tree instances. Note that TreeChart
-    // doesn't keep track of orig nodes. That is bookkeepping done by Tree.
-    const oldTree = chart.tree;
-    const tree = new TreeChart.Tree(chart.frame, opts, orig, oldTree);
-
-
-
-
-    // Prepare for layout - get dimensions
-    tree.getDimensions();
-
-    // Do the layout - modifies the Tree instances in-place; returns an 
-    // object with nodes (a flattened array of Trees) and links (the connectors
-    // between the nodes). 
-    const layout = chart.layout = chart.engine.doLayout(tree),
-          nodes = layout.nodes,
-          links = layout.links;
-
     // Bind the node objects to their elements; returns a list that's divided
     // into three sets (per D3's way of doing things):
     // - enter - haven't been bound before

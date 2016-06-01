@@ -12,12 +12,14 @@
 
 
   TreeChart.defaults = {
+    duration: 800,
 
     renderer: {
       // Note that this one has to be in a recipe, because .D3svg hasn't been
       // assigned
       selected: C1(X=> TreeChart.D3svg),
       nodeRenderer: C1(X=> TreeChart.D3svg_Node),
+      linkRenderer: C1(X=> TreeChart.D3svg_Link),
     },
 
     // settings that apply to the drawing as a whole

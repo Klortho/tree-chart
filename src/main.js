@@ -16,18 +16,17 @@ const TreeChart = function() {
       Microcolor.prototype[C1.c1symbol] = { atomic: true };
 
       const opts = this.options = C1.extend(TreeChart.defaults, (_opts || {}));
-      this.tree = null;
-      this.chartElem = chartElem;
 
+      this.tree = null;
+      this.lastTreeData = null;
+
+      this.chartElem = chartElem;
 
       // Create the factory method for our nodes
       this.newNode = TreeChart.Node.getFactory(opts);
 
-
       // Instantiate the renderer
       this.renderer = new opts.renderer.selected(this);
-
-
 
       // Retrieve the flextree layout engine, and set some callbacks.
       // Note how x/y (width/height) is reversed in flextree.
@@ -54,15 +53,43 @@ const TreeChart = function() {
       return TreeChart._nextId++;
     }
 
+
+    // Stores the important geometry from the current tree display, before we
+    // render a new one. This is indexed by __id.
+    // Stores position (x, y) and the absolute anchorOut (x, y).
+    // Actually anchor position should stay relative.
+    storeTreeData() {
+      const chart = this;
+      chart.lastTreeData = {};
+      if (!chart.tree) return;
+
+      function storeNode(node) {
+        const anchorOut = node.opts['anchor-out'];
+        chart.lastTreeData[node.__id] = {
+          position: {
+            x: node.x,
+            y: node.y,
+          },
+          anchorOut: anchorOut,
+        };
+        node.children.forEach(kid => storeNode(kid));
+      }
+      storeNode(chart.tree);
+      return chart.lastTreeData;
+    }
+
+
     // Update (or draw for the first time) the drawing, based on the new tree.
     // None, some, or all of the nodes in this new tree might have the same
     // __id's as the current tree.
     draw(newTree) {
 
+      // If we are currently rendering a tree, save the important data
+      this.storeTreeData();
+
+
       // FIXME: for now, just assuming that this is the first time:
       this.tree = newTree;
-
-      // prolly going to have to save the old x and y
 
       // Do the layout - modifies the Tree instances in-place. 
       const nodes = this.nodes = this.flextree.nodes(this.tree);
@@ -79,14 +106,8 @@ const TreeChart = function() {
         n.y = x;
       });
 
-      // We'll want to figure out enter, update, and exit here, and then
-      // call transition routines explicitly, I think.
-      const renderer = this.renderer;
-      nodes.forEach(node => {
-        renderer.drawEnter(node);
-      });
-
-      renderer.drawLinks(links);
+      // Draw
+      this.renderer.draw(nodes, links);
     }
   };
 

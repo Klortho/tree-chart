@@ -21,11 +21,22 @@ To do:
 
 # Current work
 
-
-* Then get diagonals working
-* do spacing
-
 * Animations - updating the tree
+
+
+
+    * Transition in the nodes
+
+
+
+
+
+
+
+
+
+
+
 * Text nodes
 * Words demo
 * New tree type for modeling JS objects.

@@ -6,7 +6,9 @@
   class D3svg_Node {
     constructor(d3svg) {
       this.d3svg = d3svg;  // our parent, the renderer instance
-      const opts = this.options = d3svg.options;
+      this.options = d3svg.options;
+      this.frame = d3svg.frame;
+      this.lastTreeData = d3svg.chart.lastTreeData;
 
       // Add the defs that we need for the node. Note that this
       // produces a nested <defs>, but that's okay, and prevents
@@ -14,8 +16,21 @@
       d3svg.defs.append('defs').html(D3svg_Node.dropShadowFilter);
     }
 
-    drawEnter(node) {
+    draw(nodes) {
+      console.log('draw(nodes)');
+      const selection = this.frame.selectAll('g.node')
+        .data(nodes, node => node.__id);
+      selection.enter()[0].forEach(item => this.drawEnter(item));
+    }
+
+
+    drawEnter(selItem) {
+      const opts = this.options;
+      const node = selItem.__data__;
       const nopts = node.opts;
+
+      // for now: transition in from (0,0)
+      const x = 0; const y = 0;
 
       // Add a <g> element container for this node.
       const nodeG = this.nodeG = this.d3svg.frame.append("g")
@@ -23,22 +38,18 @@
           'id': node.__id,
           'class': 'node',
           filter: 'url(#dropshadow)',
+          transform: `translate(${x}, ${y}) scale(0, 1)`,
         });
 
-      const contentWidth = nopts['content-width'];
       const contentHeight = nopts['content-height'];
       const padding = nopts.padding;
       const border = nopts.border;
-      const marginTop = nopts['margin-top'];
-      const marginBottom = nopts['margin-bottom'];
-      const marginLeft = nopts['margin-left'];
-      const fill = nopts.fill;
-      const borderColor = nopts['border-color'];
 
-      const rectWidth = border + 2 * padding + contentWidth;
+      const rectWidth = border + 2 * padding + nopts['content-width'];
       const rectHeight = border + 2 * padding + contentHeight;
-      const rectX = marginLeft + border / 2;
-      const rectY = (marginTop - marginBottom - contentHeight - border) / 2 - padding;
+      const rectX = nopts['margin-left'] + border / 2;
+      const rectY = (nopts['margin-top'] - nopts['margin-bottom'] - 
+        contentHeight - border) / 2 - padding;
 
       nodeG.append("rect")
         .attr({
@@ -52,14 +63,16 @@
         })
         .style({
           'stroke-width': border + 'px',
-          stroke: borderColor,
-          fill: fill,
+          stroke: nopts['border-color'],
+          fill: nopts.fill,
         });
 
       // transition
-      nodeG.attr({
-        'transform': `translate(${node.x}, ${node.y})`,
-      })
+      nodeG.transition()
+        .duration(opts.duration)
+        .attr({
+          'transform': `translate(${node.x}, ${node.y})`,
+        });
     }
   }
 
