@@ -3,15 +3,64 @@
   <head>
     <title>tree-chart demos</title>
     <meta charset="utf-8">
+    <style>
+      body {margin: 0; padding: 1em;}
+      .tree-demo {
+        padding: 1em;
+        border-radius: 0.5em;
+        border: 1px solid #777;
+        background: #EEE;
+        overflow: hidden;
+        margin: 1em 0;
+      }
+    </style>
   </head>
   <body>
     <div id='state' style='float: right'></div>
     <h1>tree-chart demos</h1>
+    <p>This library uses <a 
+    href='https://www.npmjs.com/package/config-one'>config-one</a> for all of its
+      settings and overrides.</p>
 
-    <ul>
-      <li><a href='src/boxes.html'>boxes</a></li>
-      <li><a href='src/words.html'>words</a></li>
-    </ul>
+    <div class='tree-demo' id='boxes'></div>
+    <div class='tree-demo' id='words'></div>
+
+    <script src='node_modules/config-one/dist/config1.js'></script>
+    <script src='node_modules/d3/d3.js'></script>
+    <script src='node_modules/d3-flextree/dist/d3-flextree.js'></script>
+    <script src='node_modules/tinycolor2/tinycolor.js'></script>
+    <script src='src/microcolor.js'></script>
+    <script src='src/main.js'></script>
+    <script src='src/defaults.js'></script>    
+    <script src='src/node.js'></script>
+    <script src='src/d3svg.js'></script>
+    <script src='src/d3svg-node.js'></script>
+    <script src='src/d3svg-wordnode.js'></script>
+    <script src='src/d3svg-link.js'></script>
+    <script src='src/words.js'></script>
+    <script src='demos/demo-boxes.js'></script>
+    <script src='demos/demo-words.js'></script>
+
+    <script>
+      demos = [];  // global for convenience in debugging
+
+      demos.push.apply(demos, DemoBoxes.start({
+        selector: '#boxes',
+        duration: 200,
+        speed: 2,
+      }));
+
+      TreeChart.Words.fromFetch('node_modules/word-list-json/words.json')
+      .then(words => {
+        demos.push.apply(demos, DemoWords.start({
+          pickWord: words.pick,
+          selector: '#words',
+          duration: 200,
+          speed: 2,
+        }));
+      })
+    </script>
+
 
   </body>
 </html>

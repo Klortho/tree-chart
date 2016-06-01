@@ -36,7 +36,7 @@
     chart: {
       orientation: 'horizontal',
       width: 1000,
-      height: 600,
+      height: 400,
       'font-size': 12,
       'font-family': 'courier',
       'text-anchor': 'start',
@@ -122,6 +122,4 @@
       'stroke-width': 1.5,
     },
   };
-
-
 })();

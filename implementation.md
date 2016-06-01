@@ -35,17 +35,3 @@ Renderers:
 * They have a <path> element (no containing <g>) with @id = 'link-#' and class 'link'
 
 
-# To do
-
-* Text nodes
-* Words demo
-* New tree type for modeling JS objects.
-
-## Nice-to-have:
-
-* Integrate this [pan-zoom library](https://github.com/ariutta/svg-pan-zoom)
-* Add other renderers; for example, a simple HTML/CSS renderer that uses boxes
-  and absolute positions. (Straight-line diagonals could even be drawn with
-  one border of a div that's rotated).
-
-
