@@ -49,6 +49,14 @@ See also [implementation.md](implementation.md) for some notes.
 
 # New architecture
 
+- I need to think some more about the similarities between config-one and the
+  default data model of tree-chart. Much more than a coincidence. They need to
+  inform each other.
+
+
+
+
+
 - Everything in one git repo, separate package.json files for each publishable
   thing.
 
@@ -90,8 +98,13 @@ An instantiator is either an instance of a class, or else a class reference
 plus a set of options specific to that class, that can be used to instantiate
 a new instance.
 
-So, and instantiator can be passed around as a C1 option. I think it can 
-be as simple as allowing an option value to be either"
+So, and instantiator can be passed around as a C1 option. But, it is not the
+same as a recipe, because it is not guaranteed to be a pure function. For
+example, an instantiator might evaluate a bunch of things based on the
+environment. Therefore, when these are encountered in a view, they are
+immediately evaluated and replaced with the results of calling that
+constructor.
+
 
 ```
 <instance>
@@ -100,17 +113,86 @@ be as simple as allowing an option value to be either"
 or 
 
 ```
-{ 'class': <class object>,
-  'options': <options> }
+{ C1.construct: {   // C1.construct is an ES6 symbol
+    'class': <class object>,
+    'options': <options> }
+  }
 ```
 
 
 
-# tree-chart refactoring
+# config-one refactoring
+
+
+## Musings
+
+- The views I've been describing are almost perfectly modelled by config1
+  views.
+- A crucial design feature is that they are not tied to root. IOW, they are
+  detachable at any point.
+- That means no links to `parent`. Instead, they emit events, and the parent(s)
+  subscribe.
+- config1 views are not like that -- or, are they? When the view hits a recipe,
+  it recursively resolves stuff, but nothing says it has to start at the root,
+  does it? There isn't even any good reason to require that the view inside
+  the resolver is part of the same config1 object.
+
+- And that's another thing! in config-one, the original data shouldn't, in general,
+  be accessible at all.
+
+
+## API changes
+
+"read-only" means that the property never changes its value, even when C1 is
+extended.
+
+- `const C1 = require('config-one')` - read-only - the configuration manager. 
+
+- `const appConfig = C1()` - This is evaluated in a context (environment) to provide an 
+  immutable config view. This sheilds us from problems related to environment
+  variables or current-working-directory changes.
+
+  IOW, keep in mind that `C1` is not a pure function. It might resolve to 
+  different things depending on the environment.
+
+  Remove the feature that C1(<func>) is a shortcut for recipe.
+
+- `C1.recipe`
+
+- `C1.options` - The options of `C1` control how the `C1()` function behaves.
+  So, they specify how to figure out what environment it is in, and
+  how to read default configuration data based on that environment.
+ 
+Among the options, in `options.source`, is an *instantiator* for a Source. It
+describes how to construct a source from files, environment variables, etc.
+It is heirarchical, and could produce a (flat) list of Sources (for example,
+from a path glob).
+
+- `const C2 = C1.new(_opts)` - Create a new clone, with new options. When
+  you do this:
+    - C2.options <- C1.extend(C1.options, _opts);
+
+- `C1.seed` - read-only - the *base* configuration manager, without any options.
+  C1 itself is an extension of this: `C1 = C1.seed.new(C1.defaults)`
+
+- `C1.defaults` - read-only
+
+- `C1.extend(...configs)` - create a new view over the supplied config source
+  objects. Note that any of the objects can be an instantiator, or could include
+  instantiators! Does this solve the vexing problem of conflating app options with
+  C1 options?
+
+
+
+
+
+
+# Tree-chart refactoring
 
 Conventions:
 
 - All the methods defined here use / return cnodes, not nodes
+
 
 
 ## Class hierarchy
