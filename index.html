@@ -18,8 +18,6 @@
   <body>
     <div id='state' style='float: right'></div>
     <h1>tree-chart demos</h1>
-    <p><em><strong>See the live demo 
-      <a href='http://klortho.github.io/tree-chart/'>here</a></strong></em></p>
     <p>This library uses <a 
     href='https://www.npmjs.com/package/config-one'>config-one</a> for all of its
       settings and overrides.</p>
@@ -46,23 +44,39 @@
     <script>
       demos = [];  // global for convenience in debugging
 
-      demos.push.apply(demos, DemoBoxes.start({
-        selector: '#boxes',
-        duration: 200,
-        speed: 2,
-      }));
+      (function() {
+        const C1 = config1;
 
-      TreeChart.Words.fromFetch('node_modules/word-list-json/words.json')
-      .then(words => {
-        demos.push.apply(demos, DemoWords.start({
-          pickWord: words.pick,
-          selector: '#words',
+        // Function to push an array of chart-demos onto the global array
+        const pushDemos = newDemos => demos.push.apply(demos, newDemos);
+
+        const demoDefaults = {
           duration: 200,
           speed: 2,
-        }));
-      })
+          selector: C1(X=> '#' + X.name),
+        };
+
+        const demoSpecs = [
+
+          { name: 'boxes',
+            start: C1(X=> () => 
+              pushDemos(DemoBoxes.start(X))
+            ),
+          },
+
+          { name: 'words',
+            start: C1(X=> () => {
+              TreeChart.Words.fromFetch('node_modules/word-list-json/words.json')
+              .then(words => {
+                const opts = C1.extend(X, {pickWord: words.pick});
+                pushDemos(DemoWords.start(opts));
+              })
+            }),
+          },
+        ].map(spec => C1.extend(demoDefaults, spec));
+
+        demoSpecs.map(spec => spec.start());
+      })();
     </script>
-
-
   </body>
 </html>

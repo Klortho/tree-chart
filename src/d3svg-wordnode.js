@@ -32,8 +32,8 @@
           'font-family': opts.chart['font-family'],
         })
         .text(word);
-
       const boundingBox = textElem[0][0].getBBox();
+      textElem.remove();
       return boundingBox;
     }
 
