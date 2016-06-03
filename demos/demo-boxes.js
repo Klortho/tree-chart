@@ -4,8 +4,6 @@
 
 const DemoBoxes = (function() {
   'use strict';
-  console.log('hey from demo boxes')
-
   const C1 = TreeChart.config1;
 
   class DemoBoxes extends Demo {
@@ -155,15 +153,12 @@ const DemoBoxes = (function() {
   // This property is added to DOM elements to bind them to the DemoBoxes instance.
   DemoBoxes.binder = Symbol('tree-chart-demo');
 
-  // Get the key code of a keydown event
-  const keyCode = evt => evt.keyCode || evt.which;
-
-  // Returns a predicate that returns true if the event keycode matches the given
-  const isKey = code => evt => keyCode(evt) === code;
-
   // In the case of this class, the options define the initial state of an
   // instance. All of the functions here get bound to the instance when it
   // is constructed. 
+
+  const isKey = Demo.isKey;
+
 
   DemoBoxes.defaults = {
     selector: '#chart',
