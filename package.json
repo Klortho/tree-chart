@@ -2,7 +2,7 @@
   "name": "tree-chart",
   "version": "0.0.1",
   "description": "Simple animated tree diagrams",
-  "main": "TreeChart",
+  "main": "src/tree-chart.js",
   "scripts": {
     "test": "cd test && cat `cat files.txt` > test-bundle.js && node test-bundle.js"
   },

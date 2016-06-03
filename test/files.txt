@@ -11,7 +11,7 @@ d3-wrap-foot.txt
 ../node_modules/tinycolor2/tinycolor.js
 
 ../src/microcolor.js
-../src/main.js
+../src/tree-chart.js
 ../src/defaults.js
 
 word-list-header.txt
@@ -30,7 +30,7 @@ word-list-footer.txt
 
 ../node_modules/chai/chai.js
 assertions.js
-test-main.js
+test-tree-chart.js
 test-defaults.js
 test-word-list.js
 test-words.js

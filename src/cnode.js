@@ -7,7 +7,6 @@
   const CNode = TreeChart.CNode = class {
 
     constructor(node) {
-      console.log('===================')
       if (typeof node === 'undefined') 
         throw Error('Can\'t instantiate a CNode without a node');
       this.guid = CNode.genGuid();

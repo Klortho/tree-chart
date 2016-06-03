@@ -1,5 +1,5 @@
 //----------------------------------------------------------------
-// main.js
+// tree-chart.js
 // This must be included first -- this defines the TreeChart object.
 
 const TreeChart = function() {
