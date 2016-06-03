@@ -33,9 +33,6 @@ const DemoWords = (function() {
       // Give this a unique id
       this.id = TreeChart.nextId;
 
-      // Keep a list of all the demos
-      DemoWords.list.push(this);
-
       // Assign the options to this instance itself
       Object.assign(this, opts);
 
@@ -156,8 +153,6 @@ const DemoWords = (function() {
 
   // This property is added to DOM elements to bind them to the DemoWords instance.
   DemoWords.binder = Symbol('tree-chart-demo');
-
-  DemoWords.list = [];
 
   // Get the key code of a keydown event
   const keyCode = evt => evt.keyCode || evt.which;

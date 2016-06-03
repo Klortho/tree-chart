@@ -32,9 +32,6 @@ const DemoBoxes = (function() {
     constructor(opts, chartElem) {
       super(opts, chartElem);
 
-      // Keep a list of all the demos
-      DemoBoxes.list.push(this);
-
       // Assign the options to this instance itself
       Object.assign(this, opts);
 
@@ -157,8 +154,6 @@ const DemoBoxes = (function() {
 
   // This property is added to DOM elements to bind them to the DemoBoxes instance.
   DemoBoxes.binder = Symbol('tree-chart-demo');
-
-  DemoBoxes.list = [];
 
   // Get the key code of a keydown event
   const keyCode = evt => evt.keyCode || evt.which;

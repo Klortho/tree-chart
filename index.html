@@ -24,6 +24,7 @@
 
     <div class='tree-demo' id='boxes'></div>
     <div class='tree-demo' id='words'></div>
+    <div class='tree-demo' id='jsobj'></div>
 
     <script src='node_modules/config-one/dist/config1.js'></script>
     <script src='node_modules/d3/d3.js'></script>
@@ -44,6 +45,7 @@
     <script src='demos/demo.js'></script>
     <script src='demos/demo-boxes.js'></script>
     <script src='demos/demo-words.js'></script>
+    <script src='demos/demo-jsobj.js'></script>
 
     <script>
       demos = [];  // global for convenience in debugging
@@ -78,6 +80,10 @@
               })
             }),
           },
+
+
+
+
         ].map(spec => C1.extend(demoDefaults, spec));
 
         demoSpecs.map(spec => spec.start());
