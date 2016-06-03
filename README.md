@@ -21,20 +21,5 @@ To test (currently not passing):
 npm test
 ```
 
-
-See also [implementation.md](implementation.md) for some notes.
-
-
-# To do
-
-* Eliminate redundancy between demo*.js.
-* More stuff into settings -- parameterize all the things!
-* New tree type for modeling JS objects.
-
-## Nice-to-have:
-
-* Add other renderers; for example, a simple HTML/CSS renderer that uses boxes
-  and absolute positions. (Straight-line diagonals could even be drawn with
-  one border of a div that's rotated).
-
-
+See also [config-one-project](https://github.com/Klortho/config-one-project) 
+for some notes.
