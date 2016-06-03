@@ -8,7 +8,7 @@
     if (null == assert.isDefined(config1, 'Where\'s C1?')) {
       const C1 = config1;
       const defaults = C1.extend(TreeChart.defaults);
-      assert.equal(defaults.chart.width, 800, 'Default chart width should be 800');
+      assert.equal(defaults.chart.width, 1000, 'Default chart width should be 800');
 
       const n = defaults.node;
       const mockNode = { text: 'banana' };
@@ -21,7 +21,7 @@
       assert.closeTo(n['anchor-in'].x, 0, 0.0001);
       assert.closeTo(n['anchor-in'].y, 0, 0.0001);
 
-      assert.closeTo(n['anchor-out'].x, 106, 0.0001);
+      assert.closeTo(n['anchor-out'].x, 66, 0.0001);
       assert.closeTo(n['anchor-out'].y, 0, 0.0001);
     }
     return assert.results;

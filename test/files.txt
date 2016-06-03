@@ -22,6 +22,7 @@ word-list-footer.txt
 ../src/node.js
 
 ../src/d3svg-node.js
+../src/d3svg-link.js
 ../src/d3svg.js
 
 
