@@ -16,7 +16,7 @@
       d3svg.defs.append('defs').html(D3svg_JsObjNode.dropShadowFilter);
     }
 
-    getTextMetrics(word) {
+    preprocess(word) {
       const opts = this.options;
 
       const textElem = this.d3svg.frame.append("text")

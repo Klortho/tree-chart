@@ -78,17 +78,33 @@ const DemoJsObj = (function() {
     }
 
 
-    jsobjToNode(parent, name, obj) {
-      const text = name +
+    jsobjToNode(parent, key, obj) {
+      const text = key +
         (typeof obj === 'number' ? ': ' + obj : '');
+
       const node = this.makeNode(text);
+
       this.addNode(parent, node);
 
-      Object.keys(obj).forEach(key => {
-        this.jsobjToNode(node, key, obj[key]);
+      Object.keys(obj).forEach(kidKey => {
+        this.jsobjToNode(node, kidKey, obj[kidKey]);
       });
       return node;
     }
+
+    makeNode(nodeData) {
+      const chart = this.chart;
+      const bbox = chart.renderer.nodeRenderer.preprocess(nodeData);
+      return chart.newNode({
+        word: nodeData,
+        'content-width': bbox.width,
+        'content-height': bbox.height,
+      });
+    }
+
+
+
+
 
     get ticker() {
       return () => {
@@ -143,15 +159,6 @@ const DemoJsObj = (function() {
       return this.makeNode(nodeData);
     }
 
-    makeNode(nodeData) {
-      const chart = this.chart;
-      const bbox = chart.renderer.nodeRenderer.getTextMetrics(nodeData);
-      return chart.newNode({
-        word: nodeData,
-        'content-width': bbox.width,
-        'content-height': bbox.height,
-      });
-    }
 
     // This picks one node in the tree, at random, to be this new node's 
     // parent
