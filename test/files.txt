@@ -20,10 +20,12 @@ word-list-footer.txt
 ../src/words.js
 
 ../src/node.js
+../src/cnode.js
 
 ../src/d3svg-node.js
 ../src/d3svg-link.js
 ../src/d3svg.js
+
 
 
 ../node_modules/chai/chai.js
@@ -33,5 +35,6 @@ test-defaults.js
 test-word-list.js
 test-words.js
 test-node.js
+test-cnode.js
 
 footer.js
