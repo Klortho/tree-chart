@@ -9,8 +9,7 @@
 
     // test the constructor with no args throws an exception
     const testFunc = () => new CNode(null);
-    console.log('expecting an exception');
-    var gotException = false;
+
     assert.throws(testFunc, Error);
 
     const cnode = new CNode(null, {});

@@ -23,7 +23,7 @@
       settings and overrides.</p>
 
     <div class='tree-demo' id='boxes'></div>
-    <!--<div class='tree-demo' id='words'></div>-->
+    <div class='tree-demo' id='words'></div>
 
     <script src='node_modules/config-one/dist/config1.js'></script>
     <script src='node_modules/d3/d3.js'></script>
@@ -40,6 +40,8 @@
     <script src='src/d3svg-wordnode.js'></script>
     <script src='src/d3svg-link.js'></script>
     <script src='src/words.js'></script>
+
+    <script src='demos/demo.js'></script>
     <script src='demos/demo-boxes.js'></script>
     <script src='demos/demo-words.js'></script>
 
@@ -53,6 +55,7 @@
         const pushDemos = newDemos => demos.push.apply(demos, newDemos);
 
         const demoDefaults = {
+          scale: 0.5,
           duration: 200,
           speed: 2,
           selector: C1(X=> '#' + X.name),
@@ -66,7 +69,6 @@
             ),
           },
 
-        /*
           { name: 'words',
             start: C1(X=> () => {
               TreeChart.Words.fromFetch('node_modules/word-list-json/words.json')
@@ -76,7 +78,6 @@
               })
             }),
           },
-        */
         ].map(spec => C1.extend(demoDefaults, spec));
 
         demoSpecs.map(spec => spec.start());

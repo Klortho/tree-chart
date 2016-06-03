@@ -4,10 +4,11 @@
 
 const DemoBoxes = (function() {
   'use strict';
+  console.log('hey from demo boxes')
 
   const C1 = TreeChart.config1;
 
-  class DemoBoxes {
+  class DemoBoxes extends Demo {
 
     // Instantiate a set of new Demos from a query selector. Makes one DemoBoxes
     // instance per matched element.
@@ -29,8 +30,7 @@ const DemoBoxes = (function() {
     // method. The opts passed in here have already been extended from 
     // defaults.
     constructor(opts, chartElem) {
-      // Give this a unique id
-      this.id = TreeChart.nextId;
+      super(opts, chartElem);
 
       // Keep a list of all the demos
       DemoBoxes.list.push(this);
@@ -43,7 +43,16 @@ const DemoBoxes = (function() {
       chartElem[DemoBoxes.binder] = this;
 
       // Create the chart
-      const chart = this.chart = new TreeChart(null, chartElem);
+      // FIXME: need a systematic way of conveying all relevatn opts.
+      console.log('opts height: ', opts.height);
+      const chart = this.chart = new TreeChart({
+        speed: opts.speed,
+        scale: opts.scale,
+        chart: {
+          width: opts.width,
+          height: opts.height,          
+        }
+      }, chartElem);
 
       this.tree = null;
 
@@ -166,6 +175,7 @@ const DemoBoxes = (function() {
     verbose: false,
     enabled: true,
     speed: 0.8,
+    height: 100,
     nodesToStart: () => Math.floor(Math.random() * 8) + 5,
     nextDelay: function() { 
       return -1000 * Math.log(Math.random()) / this.speed; 

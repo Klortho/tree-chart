@@ -16,12 +16,15 @@
 
       // Initialize the DOM element and SVG
       this.chartSelection = d3.select(chart.chartElem);
+      console.log('in d3svg: opts.chart.height: ', opts.chart.height);
       const svg = this.svg = this.chartSelection.append("svg")
         .attr({
           xmlns: "http://www.w3.org/2000/svg",
           xlink: "http://www.w3.org/1999/xlink",
-          width: opts.chart.width,
-          height: opts.chart.height,
+          width: '500px',
+          height: '100px',
+          //width: opts.chart.width + 'px',
+          //height: opts.chart.height + 'px',
         })
         .style({
           'font-size': opts.chart['font-size'],
@@ -29,8 +32,11 @@
         });
 
       // frame - the graphical context for the whole drawing
+      console.log('d3svg, scale: ', opts.scale);
+      const scaleVal = opts.scale ? opts.scale : 1;
+      const translateY = opts.chart.height/2 * scaleVal;
       this.frame = svg.append('g')
-        .attr('transform', `translate(0, ${opts.chart.height/2})`);
+        .attr('transform', `translate(0, ${translateY}) scale(${scaleVal})`);
 
       // Add a <defs> element to hold definitions like gradients
       this.defs = svg.append('defs');
