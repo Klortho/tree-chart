@@ -46,10 +46,22 @@ const DemoJsObj = (function() {
       // Create the chart
       const chart = this.chart = new TreeChart(opts.treeChart, chartElem);
 
-
       this.tree = null;
 
+      //this.addNodeRandomly(this.randomNode());
 
+      this.rootName = 'config';
+      this.rootObj = {
+        a: 1,
+        b: { a: 5 }
+      }
+
+      const node = this.jsobjToNode(null, this.rootName, this.rootObj);
+
+
+      this.chart.draw(this.tree);        
+
+/*
       // Set event listeners
       const self = this;
       this.listeners.forEach(spec => {
@@ -62,6 +74,20 @@ const DemoJsObj = (function() {
       this.tickTotalCount = 0;
       this.tickEnabledCount = 0;
       this.ticker();
+*/
+    }
+
+
+    jsobjToNode(parent, name, obj) {
+      const text = name +
+        (typeof obj === 'number' ? ': ' + obj : '');
+      const node = this.makeNode(text);
+      this.addNode(parent, node);
+
+      Object.keys(obj).forEach(key => {
+        this.jsobjToNode(node, key, obj[key]);
+      });
+      return node;
     }
 
     get ticker() {
@@ -113,30 +139,38 @@ const DemoJsObj = (function() {
     }
 
     randomNode() {
-      const chart = this.chart;
-      
-      const word = 'kowabunga';
-      const bbox = chart.renderer.nodeRenderer.getTextMetrics(word);
+      const nodeData = 'kowabunga';
+      return this.makeNode(nodeData);
+    }
 
+    makeNode(nodeData) {
+      const chart = this.chart;
+      const bbox = chart.renderer.nodeRenderer.getTextMetrics(nodeData);
       return chart.newNode({
-        word: word,
+        word: nodeData,
         'content-width': bbox.width,
         'content-height': bbox.height,
       });
     }
 
+    // This picks one node in the tree, at random, to be this new node's 
+    // parent
+    addNodeRandomly(node) {
+      const parent = (() => {
+        if (!this.tree) return null;
+        else {
+          const nodes = this.chart.nodes
+          const p = Math.floor(Math.random() * nodes.length);
+          return nodes[p];
+        }
+      })();
+      return this.addNode(parent, node);
+    }
+
     // Add a random node to the tree
-    addNode() {
-      const n = this.randomNode();
-      if (!this.tree) {
-        this.tree = n;
-      }
-      else {
-        const nodes = this.chart.nodes
-        const p = Math.floor(Math.random() * nodes.length);
-        nodes[p].addChild(n);
-      }
-      this.chart.draw(this.tree);        
+    addNode(parent, node) {
+      if (!parent) this.tree = node;
+      else parent.addChild(node);
     }
 
     // Delete a random node
@@ -151,6 +185,7 @@ const DemoJsObj = (function() {
       nx.parent.deleteChild(nx);
       chart.draw(this.tree);
     }
+
 
   };
 
