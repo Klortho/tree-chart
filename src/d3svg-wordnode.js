@@ -37,7 +37,6 @@
       return boundingBox;
     }
 
-
     draw(nodes) {
       const self = this;
       const opts = this.options;

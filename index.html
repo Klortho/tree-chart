@@ -22,10 +22,8 @@
     href='https://www.npmjs.com/package/config-one'>config-one</a> for all of its
       settings and overrides.</p>
 
-    <div class='tree-demo' id='jsobj'></div>
-  <!--
     <div class='tree-demo' id='boxes'></div>
-    <div class='tree-demo' id='words'></div> -->
+    <div class='tree-demo' id='words'></div>
 
     <script src='node_modules/config-one/dist/config1.js'></script>
     <script src='node_modules/d3/d3.js'></script>
@@ -38,12 +36,10 @@
     <script src='src/d3svg.js'></script>
     <script src='src/d3svg-node.js'></script>
     <script src='src/d3svg-wordnode.js'></script>
-    <script src='src/d3svg-jsobj-node.js'></script>
     <script src='src/d3svg-link.js'></script>
     <script src='src/words.js'></script>
     <script src='demos/demo-boxes.js'></script>
     <script src='demos/demo-words.js'></script>
-    <script src='demos/demo-jsobj.js'></script>
 
     <script>
       demos = [];  // global for convenience in debugging
@@ -61,12 +57,6 @@
         };
 
         const demoSpecs = [
-
-          { name: 'jsobj',
-            start: C1(X=> () => 
-              pushDemos(DemoJsObj.start(X))
-            ),
-          },
 
           { name: 'boxes',
             start: C1(X=> () => 
