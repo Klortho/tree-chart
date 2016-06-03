@@ -1,14 +1,17 @@
 header.js
 
-../node_modules/config-one/dist/config1.js
+../../config-one/dist/config1.js
 
 d3-wrap-head.txt
 ../node_modules/d3/d3.js
 d3-wrap-foot.txt
 
 ../node_modules/d3-flextree/dist/d3-flextree.js
-
 ../node_modules/tinycolor2/tinycolor.js
+
+ramda-wrap-head.txt
+../node_modules/ramda/dist/ramda.min.js
+ramda-wrap-foot.txt
 
 ../src/microcolor.js
 ../src/tree-chart.js

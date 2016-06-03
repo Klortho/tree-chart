@@ -1,0 +1,7 @@
+//----------------------------------------------------------------
+// ramda-wrap-head.txt - a wrapper to "require" d3.
+
+var ramda = (function() {
+  var module = {
+    exports: true,
+  };

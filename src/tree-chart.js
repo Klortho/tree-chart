@@ -7,10 +7,16 @@ const TreeChart = function() {
 
   class TreeChart {
 
+    // FIXME: chartElem does not belong here. This class won't know anything
+    // at all about renderers. It will emit events that the renderers will
+    // pick up.
     constructor(_opts=null, chartElem) {
       TreeChart.charts.push(this);
       const C1 = TreeChart.config1;
 
+
+      // FIXME: this will go away too. I'm going to make all functions atomic
+      // by default.
       // Add a symbol to tinycolor, to tell C1 to treat it as atomic.
       tinycolor.prototype[C1.c1symbol] = { atomic: true };
       Microcolor.prototype[C1.c1symbol] = { atomic: true };
@@ -142,6 +148,78 @@ const TreeChart = function() {
       this.storeTreeData();
     }
   };
+
+  //--------------------------------------- phase 2 code
+
+  // Generate a globally unique identifier, that conforms to
+  // RFC4122 UUIDS.
+
+  // This is from https://github.com/broofa/node-uuid, which links to this
+  // fun gist: https://gist.github.com/jed/982883
+  function b(a) {
+    return a ? ( a^Math.random() * 16 >> a/4).toString(16) :
+      ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, b);
+  }
+
+  TreeChart.genGuid = () => b();
+
+
+  // FIXME: Let's move some of these library-type validation/checking routines 
+  // into config-one. They are a constant source of pain.
+
+
+  // Use this symbol as needed (only if needed) to attach metadata to nodes
+  TreeChart.metaSymbol = Symbol('TreeChart meta');
+  const metaSymbol = TreeChart.metaSymbol;
+
+  // Utility function to get an "own" property value from an item, or else null.
+  // This should be safe, in that if the value is of any type except undefined,
+  // it won't throw an exception
+  TreeChart.getProp = R.curry((key, obj) => {
+    if (typeof obj === 'undefined') 
+      throw Error('Can\'t get a property from an undefined value');
+    return obj.hasOwnProperty(key) ? obj[key] : null;
+  });
+  const getProp = TreeChart.getProp;
+
+
+  // Test to see if a variable is of a type that can hold properties.
+  TreeChart.isObject = val =>
+    (val !== null) &&
+    ( (typeof val === 'function') || (typeof val === 'object') );
+  const isObject = TreeChart.isObject;
+
+
+  // Attach the metaSymbol key to an object, if it's not there already, and
+  // returns it's value. 
+  // `obj` must be of a type that allows properties (`isObject`).
+  TreeChart.getMetaObject = function(obj) {
+    if (!isObject(obj)) 
+      throw Error('Can\'t get metadata information from a non-object');
+    if (!obj.hasOwnProperty(metaSymbol)) obj[metaSymbol] = {};
+    return obj[metaSymbol];
+  }
+  const getMetaObject = TreeChart.getMetaObject;
+
+  // Get a single metadata property. If the metaSymbol object has not been 
+  // attached, or if it doesn't have the given property, then this returns null.
+  TreeChart.getMeta = R.curry((key, obj) => {
+    const meta = getMetaObject(obj);
+    return meta.hasOwnProperty(key) ? meta[key] : null;
+  });
+
+
+  // Set a metadata item, returns the object.
+  // `obj` must be of a type that allows properties.
+  TreeChart.setMeta = R.curry((key, value, obj) => {
+    const meta = getMetaObject(obj);
+    meta[key] = value;
+    return obj;
+  });
+
+  //--------------------------------------- end phase 2 code
+
+
 
   // const C1 = require('config-one');
   TreeChart.config1 = config1;
