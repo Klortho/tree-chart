@@ -7,7 +7,9 @@ const DemoWords = (function() {
 
   const C1 = TreeChart.config1;
 
-  class DemoWords {
+  const defaults = {};
+
+  class DemoWords extends DemoBoxes {
 
     // Instantiate a set of new Demos from a query selector. Makes one Demo
     // instance per matched element.

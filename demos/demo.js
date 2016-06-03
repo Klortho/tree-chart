@@ -2,7 +2,8 @@
 
 const Demo = (function() {
   'use strict';
-  console.log('hey from demo')
+
+  // FIXME: We should *not* all be using the same instance of this.
   const C1 = TreeChart.config1;
 
 
@@ -86,12 +87,20 @@ const Demo = (function() {
 
   class Demo {
     constructor(opts) {
+      this._options = C1.extend(defaults, opts);
+
       // Give this a unique id
       this.id = TreeChart.nextId;
 
       // Keep a list of all the demos
       Demo.list.push(this);
+    }
 
+    get defaults() {
+      return defaults;
+    }
+    get options() {
+      return this._options;
     }
   };
 

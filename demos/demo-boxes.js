@@ -2,9 +2,13 @@
 // random events with an average frequency of `speed` Hz.
 // The timer is always going; when the looping is disabled, we just ignore it.
 
+
 const DemoBoxes = (function() {
   'use strict';
   const C1 = TreeChart.config1;
+
+  const defaults = C1.extend(Demo.defaults, {});
+
 
   class DemoBoxes extends Demo {
 
@@ -28,10 +32,28 @@ const DemoBoxes = (function() {
     // method. The opts passed in here have already been extended from 
     // defaults.
     constructor(opts, chartElem) {
-      super(opts, chartElem);
 
+      // FIXME: Get options off of the @data-demo attribute of the element.
+      // Then, the ov
+
+      super();
+
+      //console.log('super defaults:');
+      //C1.ppConsole(C1.extend(super.defaults));
+      //console.log('our defaults:');
+      //C1.ppConsole(C1.extend(defaults));
+      //console.log('super.options = super.defaults <- defaults:');
+      //C1.ppConsole(super.options);
+
+      // Then use the superclass options as our defaults
+      this._options = C1.extend(super.options, opts);
+
+      //console.log('our options = super.options <- opts:');
+      //C1.ppConsole(this.options);
+
+      // FIXME: I think this is a bad idea:
       // Assign the options to this instance itself
-      Object.assign(this, opts);
+      Object.assign(this, this.options);
 
       // double bind
       this.chartElem = chartElem;
@@ -64,6 +86,14 @@ const DemoBoxes = (function() {
       this.tickTotalCount = 0;
       this.tickEnabledCount = 0;
       this.ticker();
+    }
+
+    get defaults() {
+      return defaults;
+    }
+
+    get options() {
+      return this._options;
     }
 
     get ticker() {
@@ -160,73 +190,8 @@ const DemoBoxes = (function() {
   const isKey = Demo.isKey;
 
 
-  DemoBoxes.defaults = {
-    selector: '#chart',
-    verbose: false,
-    enabled: true,
-    speed: 0.8,
-    nodesToStart: () => Math.floor(Math.random() * 8) + 5,
-    nextDelay: function() { 
-      return -1000 * Math.log(Math.random()) / this.speed; 
-    },
-    oddsToRemove: demo => demo.numNodes()/10 - 0.5,
-    removeBox: C1(X=> demo => (Math.random() < X.oddsToRemove(demo))),
+  DemoBoxes.defaults = defaults;
 
-    listeners: [
-      //// for checking key codes:
-      //{ type: 'keydown',
-      //  filter: () => true,
-      //  listener: evt => console.log('got evt: ', evt, ', key code: ', keyCode(evt)) },
-
-      // `s` - log current state
-      { type: 'keydown',
-        filter: isKey(83),
-        listener: function() { this.status(); }
-      },
-
-      // `v` - toggle verbose
-      { type: 'keydown',
-        filter: isKey(86),
-        listener: function() { this.verbose = !this.verbose; }
-      },
-
-      // `a` - add a node
-      { type: 'keydown',
-        filter: isKey(65),
-        listener: function() { this.addNode(); }
-      },
-
-      // `x` - delete a node at random (and its descendants)
-      { type: 'keydown',
-        filter: isKey(88),
-        listener: function() { this.deleteNode(); }
-      },
-
-      // escape - suspend dynamic updates
-      { type: 'keydown',
-        filter: isKey(27),  // escape
-        listener: function() { this.enabled = false; },
-      },
-
-      // space - restart dynamic updates
-      { type: 'keydown',
-        filter: isKey(32),  // space
-        listener: function() { this.enabled = true; },
-      },
-
-      // `-` - slow down
-      { type: 'keydown',
-        filter: isKey(189),  // `-`
-        listener: function() { this.speed *= 1.1; },
-      },
-
-      // `=` / `+` = speed up
-      { type: 'keydown',
-        filter: isKey(187),  // `=`
-        listener: function() { this.speed /= 1.1; },
-      },
-    ],
-  };
 
   return DemoBoxes;
 })();
