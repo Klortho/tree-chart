@@ -21,8 +21,8 @@
         .attr({
           xmlns: "http://www.w3.org/2000/svg",
           xlink: "http://www.w3.org/1999/xlink",
-          width: '500px',
-          height: '100px',
+          width: '800px',
+          height: '400px',
           //width: opts.chart.width + 'px',
           //height: opts.chart.height + 'px',
         })
@@ -32,11 +32,11 @@
         });
 
       // frame - the graphical context for the whole drawing
-      console.log('d3svg, scale: ', opts.scale);
-      const scaleVal = opts.scale ? opts.scale : 1;
-      const translateY = opts.chart.height/2 * scaleVal;
+      //console.log('d3svg, scale: ', opts.scale);
+      //const scaleVal = opts.scale ? opts.scale : 1;
+      //const translateY = opts.chart.height/2 * scaleVal;
       this.frame = svg.append('g')
-        .attr('transform', `translate(0, ${translateY}) scale(${scaleVal})`);
+        .attr('transform', `translate(0, 200) scale(1)`);
 
       // Add a <defs> element to hold definitions like gradients
       this.defs = svg.append('defs');

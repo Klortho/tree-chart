@@ -39,6 +39,7 @@
     <script src='src/d3svg.js'></script>
     <script src='src/d3svg-node.js'></script>
     <script src='src/d3svg-wordnode.js'></script>
+    <script src='src/d3svg-jsobj-node.js'></script>
     <script src='src/d3svg-link.js'></script>
     <script src='src/words.js'></script>
 
@@ -79,6 +80,12 @@
                 pushDemos(DemoWords.start(opts));
               })
             }),
+          },
+
+          { name: 'jsobj',
+            start: C1(X=> () =>
+              pushDemos(DemoJsObj.start(X))
+            ),
           },
 
 

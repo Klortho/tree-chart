@@ -170,7 +170,6 @@ const DemoBoxes = (function() {
     verbose: false,
     enabled: true,
     speed: 0.8,
-    height: 100,
     nodesToStart: () => Math.floor(Math.random() * 8) + 5,
     nextDelay: function() { 
       return -1000 * Math.log(Math.random()) / this.speed; 
